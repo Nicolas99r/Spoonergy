@@ -1,0 +1,18 @@
+---
+import { FAQList } from "./FAQList";
+---
+
+<section
+    id="questions"
+    class="py-32 w-full flex flex-col items-center justify-center px-6 md:px-32 relative bg-transparent z-[60]"
+>
+    <div class="w-full max-w-3xl">
+        <h2
+            class="text-3xl md:text-4xl font-serif text-zinc-50 tracking-tight leading-tight mb-12 text-center"
+        >
+            Preguntas Frecuentes
+        </h2>
+
+        <FAQList client:visible />
+    </div>
+</section>

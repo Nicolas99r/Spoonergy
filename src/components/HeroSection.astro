@@ -1,0 +1,42 @@
+---
+import { Button } from "./ui/Button";
+---
+
+<section
+  id="overview"
+  class="min-h-[100vh] w-full flex flex-col items-center justify-start relative overflow-hidden bg-transparent"
+>
+  <div
+    class="relative z-[60] text-center max-w-4xl px-4 w-full flex flex-col items-center mt-[55vh] pointer-events-none"
+  >
+    <h3
+      class="text-xl md:text-2xl font-serif text-white tracking-widest leading-tight mx-auto mb-2 opacity-0 animate-[fade-in-up_1.5s_cubic-bezier(0.16,1,0.3,1)_0.3s_forwards] drop-shadow-lg"
+    >
+      Spoonergy™
+    </h3>
+    <h1
+      class="text-[2.5rem] md:text-5xl font-serif text-zinc-50 tracking-normal leading-tight mx-auto mb-4 opacity-0 animate-[fade-in-up_1.5s_cubic-bezier(0.16,1,0.3,1)_0.5s_forwards] drop-shadow-lg"
+    >
+      El equilibrio no se encuentra. Se absorbe.
+    </h1>
+    <p
+      class="text-sm md:text-[0.95rem] font-sans font-normal text-zinc-400 max-w-2xl mx-auto mb-10 opacity-0 animate-[fade-in-up_1.5s_cubic-bezier(0.16,1,0.3,1)_0.7s_forwards] tracking-wide drop-shadow"
+    >
+      Una herramienta de alineación energética diseñada para transformar un acto
+      cotidiano en una experiencia consciente.
+    </p>
+  </div>
+</section>
+
+<style>
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

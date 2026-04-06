@@ -1,0 +1,86 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="404 | Fuera de Alineación">
+    <main
+        class="relative h-screen w-full flex flex-col items-center justify-center bg-black overflow-hidden select-none"
+    >
+        <!-- Abstract background elements -->
+        <div class="absolute inset-0 z-0">
+            <div
+                class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] bg-zinc-900/20 blur-[120px] rounded-full"
+            >
+            </div>
+        </div>
+
+        <div class="relative z-10 flex flex-col items-center text-center px-6">
+            <div class="mb-12 relative">
+                <span
+                    class="text-[12rem] md:text-[16rem] font-serif font-light text-zinc-900 leading-none tracking-tighter"
+                    >404</span
+                >
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <span
+                        class="text-xs font-mono tracking-[1em] text-zinc-500 uppercase mt-20"
+                        >Signal Lost</span
+                    >
+                </div>
+            </div>
+
+            <h1
+                class="text-2xl md:text-3xl font-serif text-zinc-200 tracking-tight mb-4"
+            >
+                Parece que te has salido de tu eje.
+            </h1>
+
+            <p
+                class="text-sm md:text-base font-sans font-light text-zinc-500 max-w-md mb-12 leading-relaxed"
+            >
+                La frecuencia que buscas no está disponible en esta dimensión. <br
+                />
+                Regresa al centro para recuperar el equilibrio.
+            </p>
+
+            <a
+                href="/"
+                class="group relative px-12 py-5 px-4 bg-transparent border border-white/10 rounded-full overflow-hidden transition-all duration-500 hover:border-white/40"
+            >
+                <div
+                    class="absolute inset-0 bg-white/5 translate-y-full group-hover:translate-y-0 transition-transform duration-500"
+                >
+                </div>
+                <span
+                    class="relative z-10 text-[10px] font-mono tracking-[0.4em] uppercase text-zinc-400 group-hover:text-white transition-colors duration-500"
+                >
+                    Volver al Inicio
+                </span>
+            </a>
+        </div>
+
+        <!-- Subtle noise and scanline effect -->
+        <div
+            class="pointer-events-none absolute inset-0 z-20 opacity-[0.03] bg-[url('/noise.png')]"
+        >
+        </div>
+    </main>
+</Layout>
+
+<style>
+    /* Subtle breathing animation for the 404 text */
+    span {
+        animation: breathe 8s ease-in-out infinite;
+    }
+
+    @keyframes breathe {
+        0%,
+        100% {
+            opacity: 0.8;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 1;
+            transform: scale(1.02);
+        }
+    }
+</style>

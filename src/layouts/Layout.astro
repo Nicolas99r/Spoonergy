@@ -1,0 +1,122 @@
+---
+import "../styles/global.css";
+import GlobalHeader from "../components/GlobalHeader.astro";
+import { CheckoutModal } from "../components/CheckoutModal";
+
+interface Props {
+    title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="generator" content={Astro.generator} />
+        
+        <!-- Primary Meta Tags -->
+        <title>{title}</title>
+        <meta name="title" content={title} />
+        <meta name="description" content="Spoonergy™: La herramienta definitiva de alineación energética. Transforma tu cotidianeidad en una experiencia consciente de alto rendimiento. Edición limitada." />
+        <meta name="theme-color" content="#000000" />
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://spoonergy.com/" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content="El equilibrio no se encuentra. Se absorbe. Descubre la herramienta de alineación energética Spoonergy™ Core_v1." />
+        <meta property="og:image" content="/og-preview.png" />
+
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://spoonergy.com/" />
+        <meta property="twitter:title" content={title} />
+        <meta property="twitter:description" content="El equilibrio no se encuentra. Se absorbe. Descubre la herramienta de alineación energética Spoonergy™ Core_v1." />
+        <meta property="twitter:image" content="/og-preview.png" />
+
+        <!-- Favicons & Mobile -->
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="apple-touch-icon" href="/favicon.svg" />
+        <link rel="manifest" href="/manifest.json" />
+        
+        <link rel="canonical" href="https://spoonergy.com/" />
+    </head>
+    <body
+        class="relative min-h-screen selection:bg-zinc-800 selection:text-zinc-50"
+    >
+        <!-- Global Noise Overlay (Behind Spoon z-50, Above BG) -->
+        <div
+            class="pointer-events-none fixed inset-0 z-[40] h-full w-full opacity-[0.04] mix-blend-overlay"
+            style="background-image: url('/noise.png');"
+        >
+        </div>
+
+        <!-- Custom Spotlight Cursor -->
+        <div
+            id="spotlight"
+            class="pointer-events-none fixed inset-0 z-[90] transition-opacity duration-300 opacity-0 bg-[radial-gradient(circle_400px_at_var(--x,_50vw)_var(--y,_50vh),rgba(255,255,255,0.06),transparent_80%)]"
+        >
+        </div>
+
+        <CheckoutModal client:load />
+        <GlobalHeader />
+
+        <slot />
+
+        <script>
+            import Lenis from "lenis";
+
+            // Force scroll to top on reload
+            if (history.scrollRestoration) {
+                history.scrollRestoration = 'manual';
+            }
+            window.scrollTo(0, 0);
+
+            // Initialize Lenis
+            const lenis = new Lenis({
+                lerp: 0.05,
+            });
+
+            function raf(time: number) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+
+            requestAnimationFrame(raf);
+
+            // Smooth scroll for anchor queries
+            document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+                anchor.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    const targetId = anchor.getAttribute("href");
+                    if (targetId && targetId !== "#") {
+                        const target = document.querySelector(
+                            targetId,
+                        ) as HTMLElement;
+                        if (target) {
+                            lenis.scrollTo(target, { offset: 0, duration: 2 });
+                        }
+                    } else if (targetId === "#") {
+                        lenis.scrollTo(0, { duration: 2 });
+                    }
+                });
+            });
+
+            // Spotlight cursor effect
+            const spotlight = document.getElementById("spotlight");
+            if (spotlight) {
+                window.addEventListener("mousemove", (e) => {
+                    spotlight.style.opacity = "1";
+                    spotlight.style.setProperty("--x", `${e.clientX}px`);
+                    spotlight.style.setProperty("--y", `${e.clientY}px`);
+                });
+                window.addEventListener("mouseleave", () => {
+                    spotlight.style.opacity = "0";
+                });
+            }
+        </script>
+    </body>
+</html>
