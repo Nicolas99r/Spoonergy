@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform, useSpring, MotionValue } from "framer-motion";
 import { useRef } from "react";
 import { Card, CardHeader, CardTitle, CardDescription } from "./ui/Card";
+import { ui } from "../i18n/ui";
 
 interface ScannedCardProps {
     title: string;
@@ -10,12 +11,10 @@ interface ScannedCardProps {
 }
 
 const ScannedCard = ({ title, description, progress, range }: ScannedCardProps) => {
-    // Rango: [Entra_Start, Entra_End_Hold, Sale_Start, Sale_End]
     const opacityRaw = useTransform(progress, range, [0, 1, 1, 0]);
     const scaleRaw = useTransform(progress, range, [0.85, 1, 1, 0.85]);
     const yRaw = useTransform(progress, range, [100, 0, 0, -100]);
 
-    // Aplicación Quirúrgica de Físicas Spring para que sea hiper-fluido
     const opacity = useSpring(opacityRaw, { stiffness: 100, damping: 20 });
     const scale = useSpring(scaleRaw, { stiffness: 100, damping: 20 });
     const y = useSpring(yRaw, { stiffness: 100, damping: 20 });
@@ -35,10 +34,14 @@ const ScannedCard = ({ title, description, progress, range }: ScannedCardProps) 
     );
 };
 
-export const VerticalScanGrid = () => {
+interface VerticalScanGridProps {
+    lang?: 'es' | 'en';
+}
+
+export const VerticalScanGrid = ({ lang = 'es' }: VerticalScanGridProps) => {
+    const t = (key: keyof typeof ui['es']) => ui[lang][key] || ui['es'][key];
     const containerRef = useRef<HTMLDivElement>(null);
     
-    // El trackeo global del scroll a través del contenedor 300vh
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start start", "end end"]
@@ -48,25 +51,25 @@ export const VerticalScanGrid = () => {
         <div ref={containerRef} className="h-[300vh] w-full relative z-[60]">
             <div className="sticky top-0 h-screen w-full flex flex-col justify-center gap-12 pointer-events-none px-4">
                 <h2 className="text-4xl md:text-6xl font-serif text-zinc-50 tracking-tight leading-tight w-full pointer-events-auto">
-                    Mucho más que funcional.
+                    {t('benefits.title')}
                 </h2>
                 
                 <div className="relative w-full h-[40vh] md:h-[30vh]">
                     <ScannedCard 
-                        title="Claridad" 
-                        description="Una percepción más limpia en cada momento. Sin esfuerzo. Sin interrupciones." 
+                        title={t('benefits.1.title')} 
+                        description={t('benefits.1.desc')} 
                         progress={scrollYProgress}
                         range={[0.00, 0.08, 0.25, 0.33]}
                     />
                     <ScannedCard 
-                        title="Calma" 
-                        description="Una sensación progresiva de equilibrio interno. No inmediata. Pero constante." 
+                        title={t('benefits.2.title')} 
+                        description={t('benefits.2.desc')} 
                         progress={scrollYProgress}
                         range={[0.33, 0.41, 0.58, 0.66]}
                     />
                     <ScannedCard 
-                        title="Conexión" 
-                        description="Una relación más consciente con lo que haces. Incluso en lo más simple." 
+                        title={t('benefits.3.title')} 
+                        description={t('benefits.3.desc')} 
                         progress={scrollYProgress}
                         range={[0.66, 0.74, 0.92, 1.00]}
                     />

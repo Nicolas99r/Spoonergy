@@ -76,7 +76,15 @@ const TestimonialCard = ({ quote, author, tag, delay = 0, className }: Testimoni
     );
 };
 
-export const TestimonialGrid = () => {
+import { ui } from "../i18n/ui";
+
+interface TestimonialGridProps {
+    lang?: 'es' | 'en';
+}
+
+export const TestimonialGrid = ({ lang = 'es' }: TestimonialGridProps) => {
+    const t = (key: keyof typeof ui['es']) => ui[lang][key] || ui['es'][key];
+    
     return (
         <div className="w-full relative z-[60] py-20">
             {/* Header / Intro */}
@@ -88,7 +96,7 @@ export const TestimonialGrid = () => {
                     transition={{ duration: 1, ease: "easeOut" }}
                     className="text-4xl md:text-6xl font-serif text-zinc-50 tracking-tight"
                 >
-                    El consenso es claro.
+                    {t('testimonials.title')}
                 </motion.h2>
                 <motion.p 
                     initial={{ opacity: 0, y: 10 }}
@@ -97,32 +105,32 @@ export const TestimonialGrid = () => {
                     transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
                     className="text-zinc-400 mt-6 text-lg md:text-xl font-light tracking-wide"
                 >
-                    No confíes en nosotros. Confía en la experiencia.
+                    {lang === 'en' ? "Don't trust us. Trust the experience." : "No confíes en nosotros. Confía en la experiencia."}
                 </motion.p>
             </div>
 
             {/* Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto px-4 md:px-12">
                 <TestimonialCard 
-                    quote="Desde que la uso, absolutamente todo se siente inherentemente diferente."
-                    author="Elena R."
-                    tag="Primera Edición"
+                    quote={t('testimonials.1.text')}
+                    author={t('testimonials.1.author')}
+                    tag={t('testimonials.1.role')}
                     delay={0.1}
-                    className="md:mt-0 h-[400px] md:h-[450px]"
+                    className="md:mt-0 min-h-[400px] md:min-h-[450px]"
                 />
                 <TestimonialCard 
-                    quote="No sabría explicar la física detrás de esto… pero simplemente funciona. Es magia táctil."
-                    author="David M."
-                    tag="Arquitecto"
+                    quote={t('testimonials.2.text')}
+                    author={t('testimonials.2.author')}
+                    tag={t('testimonials.2.role')}
                     delay={0.3}
-                    className="md:mt-16 h-[400px] md:h-[450px]"
+                    className="md:mt-16 min-h-[400px] md:min-h-[450px]"
                 />
                 <TestimonialCard 
-                    quote="Nunca volví a usar otra cuchara. Arruinó el resto de los cubiertos para mí."
-                    author="Sofía T."
-                    tag="Chef Ejecutiva"
+                    quote={t('testimonials.3.text')}
+                    author={t('testimonials.3.author')}
+                    tag={t('testimonials.3.role')}
                     delay={0.5}
-                    className="md:mt-32 h-[400px] md:h-[450px]"
+                    className="md:mt-32 min-h-[400px] md:min-h-[450px]"
                 />
             </div>
         </div>

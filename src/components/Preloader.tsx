@@ -2,14 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { playSound } from '../lib/audio';
 
-const phrases = [
-    "Alineando energías...",
-    "Sincronizando frecuencias...",
-    "Elevando tu consciencia...",
-    "Spoonergy™ Core_v1 Ready."
-];
+import { ui } from '../i18n/ui';
 
-export const Preloader = () => {
+interface PreloaderProps {
+    lang?: 'es' | 'en';
+}
+
+export const Preloader = ({ lang = 'es' }: PreloaderProps) => {
+    const t = (key: keyof typeof ui['es']) => ui[lang][key] || ui['es'][key];
+    const phrases = [
+        t('preloader.1'),
+        t('preloader.2'),
+        t('preloader.3'),
+        t('preloader.4')
+    ];
     const [loading, setLoading] = useState(true);
     const [phraseIndex, setPhraseIndex] = useState(0);
 

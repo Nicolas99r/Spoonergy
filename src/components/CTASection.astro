@@ -1,6 +1,13 @@
 ---
-import { Button } from "./ui/Button";
 import { SpoonInspector } from "./SpoonInspector";
+import { useTranslations } from "../i18n/utils";
+
+interface Props {
+  lang: "es" | "en";
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
 ---
 
 <!-- Ground Layer: The dark parallax background -->
@@ -25,7 +32,7 @@ import { SpoonInspector } from "./SpoonInspector";
             <p
                 class="mt-4 text-[10px] text-zinc-600 font-mono tracking-widest text-center lg:text-left opacity-0 group-hover:opacity-100 transition-opacity duration-700"
             >
-                DRAG TO ROTATE EXPERIENCE // CORE_V1
+                {lang === 'en' ? 'DRAG TO ROTATE EXPERIENCE // CORE_V1' : 'ARRASTRA PARA ROTAR LA EXPERIENCIA // CORE_V1'}
             </p>
         </div>
 
@@ -36,14 +43,12 @@ import { SpoonInspector } from "./SpoonInspector";
             <h2
                 class="text-4xl md:text-6xl lg:text-7xl font-serif text-zinc-50 tracking-tight leading-tight mb-6 drop-shadow-2xl"
             >
-                Una inversión <br class="hidden lg:block" /> en tu equilibrio.
+                {t('cta.title').split(' ')[0]} {t('cta.title').split(' ')[1]} <br class="hidden lg:block" /> {t('cta.title').split(' ').slice(2).join(' ')}
             </h2>
             <p
                 class="text-lg md:text-xl font-sans font-light text-zinc-400 max-w-xl mb-12 leading-relaxed drop-shadow-lg"
             >
-                Spoonergy™ está disponible en cantidades limitadas.<br
-                    class="hidden md:block"
-                />Porque no todo está hecho para todos.
+                {t('cta.description')}
             </p>
 
             <div class="pointer-events-auto group">
@@ -51,13 +56,12 @@ import { SpoonInspector } from "./SpoonInspector";
                     id="final-cta-buy"
                     class="relative flex items-center justify-center bg-gradient-to-b from-zinc-50 to-zinc-300 text-zinc-950 font-sans tracking-wide text-sm md:text-base px-16 py-6 rounded-full transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] shadow-[0_0_15px_rgba(255,255,255,0.05)] hover:shadow-[0_0_50px_rgba(255,255,255,0.4),0_0_100px_rgba(226,226,213,0.2)] hover:scale-[1.03] hover:-translate-y-1 overflow-hidden ring-1 ring-white/30 hover:ring-white"
                 >
-                    {/* Internal shine sweep */}
                     <span
                         class="absolute top-0 left-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-[-45deg] -translate-x-[200%] group-hover:translate-x-[200%] transition-transform duration-[1200ms] ease-in-out pointer-events-none"
                     ></span>
                     <span
                         class="relative z-10 font-bold uppercase tracking-[0.2em] drop-shadow-sm text-sm"
-                        >Comprar ahora</span
+                        >{t('cta.buy')}</span
                     >
                 </button>
             </div>
@@ -66,7 +70,9 @@ import { SpoonInspector } from "./SpoonInspector";
                 <p
                     class="text-xs text-zinc-500 font-sans tracking-widest uppercase leading-loose"
                 >
-                    Edición Limitada <br /> Edición Conceptual
+                    {t('cta.edition').split('\n').map((line) => (
+                        <span>{line} <br /></span>
+                    ))}
                 </p>
             </div>
         </div>

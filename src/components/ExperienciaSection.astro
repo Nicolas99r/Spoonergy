@@ -1,5 +1,12 @@
 ---
+import { useTranslations } from "../i18n/utils";
 
+interface Props {
+  lang: "es" | "en";
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
 ---
 
 <section
@@ -11,23 +18,21 @@
         <h2
             class="text-4xl md:text-6xl font-serif text-zinc-50 tracking-tight leading-tight mb-12"
         >
-            No cambia lo que haces.<br /><span class="text-zinc-400"
-                >Cambia cómo lo vives.</span
+            {t('experiencia.title').split('.')[0]}.<br /><span class="text-zinc-400"
+                >{t('experiencia.title').split('.')[1]}.</span
             >
         </h2>
         <div
             class="text-lg md:text-2xl font-sans font-light text-zinc-300 max-w-2xl mx-auto space-y-6"
         >
             <p>
-                No necesitas modificar tu rutina.<br />No necesitas aprender
-                nada nuevo.
+                {t('experiencia.p1')}
             </p>
             <p>
-                Spoonergy™ se integra de forma natural en tu día a día,
-                transformando cada interacción en una oportunidad de equilibrio.
+                {t('experiencia.p2')}
             </p>
             <p class="text-zinc-500">
-                Pequeños momentos.<br />Un impacto constante.
+                {t('experiencia.p3')}
             </p>
         </div>
     </div>

@@ -1,26 +1,32 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const faqs = [
-    {
-        q: "¿Cómo funciona Spoonergy™?",
-        a: "Spoonergy™ utiliza una estructura resonante diseñada para interactuar con tu energía natural."
-    },
-    {
-        q: "¿Cuánto tiempo tarda en sentirse el efecto?",
-        a: "Cada persona es diferente. Algunos lo perciben desde el primer uso. Otros, con el tiempo."
-    },
-    {
-        q: "¿Necesito cambiar mi rutina?",
-        a: "No. Spoonergy™ se adapta a ti."
-    },
-    {
-        q: "¿Está científicamente comprobado?",
-        a: "Spoonergy™ no busca validación externa. Su experiencia es personal."
-    }
-];
+import { ui } from '../i18n/ui';
 
-export const FAQList = () => {
+interface FAQListProps {
+    lang?: 'es' | 'en';
+}
+
+export const FAQList = ({ lang = 'es' }: FAQListProps) => {
+    const t = (key: keyof typeof ui['es']) => ui[lang][key] || ui['es'][key];
+    const faqs = [
+        {
+            q: t('faq.1.q'),
+            a: t('faq.1.a')
+        },
+        {
+            q: t('faq.2.q'),
+            a: t('faq.2.a')
+        },
+        {
+            q: t('faq.3.q'),
+            a: t('faq.3.a')
+        },
+        {
+            q: t('faq.4.q'),
+            a: t('faq.4.a')
+        }
+    ];
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
     return (

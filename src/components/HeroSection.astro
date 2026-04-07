@@ -1,5 +1,12 @@
 ---
-import { Button } from "./ui/Button";
+import { useTranslations } from "../i18n/utils";
+
+interface Props {
+  lang: "es" | "en";
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
 ---
 
 <section
@@ -12,18 +19,17 @@ import { Button } from "./ui/Button";
     <h3
       class="text-xl md:text-2xl font-serif text-white tracking-widest leading-tight mx-auto mb-2 opacity-0 animate-[fade-in-up_1.5s_cubic-bezier(0.16,1,0.3,1)_0.3s_forwards] drop-shadow-lg"
     >
-      Spoonergy™
+      SPOONERGY™
     </h3>
     <h1
       class="text-[2.5rem] md:text-5xl font-serif text-zinc-50 tracking-normal leading-tight mx-auto mb-4 opacity-0 animate-[fade-in-up_1.5s_cubic-bezier(0.16,1,0.3,1)_0.5s_forwards] drop-shadow-lg"
     >
-      El equilibrio no se encuentra. Se absorbe.
+      {t('hero.title')}
     </h1>
     <p
       class="text-sm md:text-[0.95rem] font-sans font-normal text-zinc-400 max-w-2xl mx-auto mb-10 opacity-0 animate-[fade-in-up_1.5s_cubic-bezier(0.16,1,0.3,1)_0.7s_forwards] tracking-wide drop-shadow"
     >
-      Una herramienta de alineación energética diseñada para transformar un acto
-      cotidiano en una experiencia consciente.
+      {t('hero.description')}
     </p>
   </div>
 </section>

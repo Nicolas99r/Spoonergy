@@ -1,5 +1,12 @@
 ---
+import { useTranslations } from "../i18n/utils";
 
+interface Props {
+  lang: "es" | "en";
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
 ---
 
 <section
@@ -26,23 +33,19 @@
         <h2
             class="text-4xl md:text-6xl font-serif text-zinc-50 tracking-tight leading-tight mb-8"
         >
-            Tecnología invisible.
+            {t('tech.title')}
         </h2>
         <div
             class="text-lg md:text-xl font-sans font-light text-zinc-300 w-full space-y-4"
         >
             <p>
-                En su núcleo, Spoonergy™ está fabricada con una aleación
-                resonante diseñada para interactuar con las frecuencias
-                naturales del cuerpo.
+                {t('tech.p1')}
             </p>
             <p>
-                Cada movimiento genera una sincronización sutil entre cuerpo,
-                mente y entorno.
+                {t('tech.p2')}
             </p>
             <p>
-                No necesitas entenderlo para sentirlo.<br />Solo necesitas
-                usarla.
+                {t('tech.p3')}
             </p>
         </div>
     </div>

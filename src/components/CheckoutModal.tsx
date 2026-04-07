@@ -2,12 +2,18 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '../lib/utils';
 import { playSound } from '../lib/audio';
+import { ui } from '../i18n/ui';
 
 // --- STYLES ---
 const glassStyle = "bg-zinc-950/80 backdrop-blur-3xl border border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.8)]";
 const buttonStyle = "relative flex items-center justify-center bg-zinc-100 text-zinc-950 font-sans font-bold uppercase tracking-[0.2em] text-xs px-10 py-5 rounded-full transition-all duration-500 hover:bg-white hover:scale-[1.02] active:scale-[0.98]";
 
-export const CheckoutModal = () => {
+interface CheckoutModalProps {
+    lang?: 'es' | 'en';
+}
+
+export const CheckoutModal = ({ lang = 'es' }: CheckoutModalProps) => {
+    const t = (key: keyof typeof ui['es']) => ui[lang][key] || ui['es'][key];
     const [isOpen, setIsOpen] = useState(false);
     const [step, setStep] = useState(1); // 1: Product, 2: Bag, 3: Processing, 4: Final
     
@@ -99,16 +105,16 @@ export const CheckoutModal = () => {
                                         <span className="text-xl font-sans text-zinc-400 font-light mb-8">$129</span>
                                         
                                         <p className="text-sm md:text-base font-sans font-light text-zinc-500 leading-relaxed mb-12 max-w-sm">
-                                            Una herramienta de alineación energética diseñada para transformar tu día a día en una experiencia consciente.
+                                            {t('hero.description')}
                                         </p>
 
                                         <div className="w-full border-t border-white/5 pt-10 mb-12 flex flex-col gap-3">
                                             <div className="flex justify-between items-center text-[10px] tracking-widest uppercase text-zinc-500 font-mono">
-                                                <span>Envío gratuito</span>
+                                                <span>{t('checkout.free')}</span>
                                                 <span className="text-white/60">Included</span>
                                             </div>
                                             <div className="flex justify-between items-center text-[10px] tracking-widest uppercase text-zinc-500 font-mono">
-                                                <span>Entrega estimada</span>
+                                                <span>{t('nav.how-it-works')}</span>
                                                 <span className="text-white/60">3–5 Días hábiles</span>
                                             </div>
                                         </div>
@@ -117,11 +123,11 @@ export const CheckoutModal = () => {
                                             onClick={nextStep}
                                             className={buttonStyle}
                                         >
-                                            <span className="relative z-10">Add to bag</span>
+                                            <span className="relative z-10">{t('checkout.add')}</span>
                                         </button>
                                         
                                         <span className="mt-6 text-[9px] font-mono tracking-[0.2em] uppercase text-zinc-600 opacity-60">
-                                            Disponibilidad limitada.
+                                            {t('cta.description')}
                                         </span>
                                     </motion.div>
                                 )}
@@ -134,7 +140,7 @@ export const CheckoutModal = () => {
                                         exit={{ opacity: 0, x: -20 }}
                                         className="flex flex-col w-full"
                                     >
-                                        <h2 className="text-2xl font-serif text-white tracking-tight mb-12 text-center">Your bag</h2>
+                                        <h2 className="text-2xl font-serif text-white tracking-tight mb-12 text-center">{t('checkout.bag')}</h2>
                                         
                                         <div className="flex items-center justify-between py-6 border-b border-white/5 mb-12">
                                             <div className="flex items-center gap-6">
@@ -198,7 +204,7 @@ export const CheckoutModal = () => {
                                             />
                                         </div>
                                         <span className="text-[10px] font-mono tracking-[0.4em] uppercase text-zinc-400 animate-pulse">
-                                            Processing your order…
+                                            {t('checkout.wait')}
                                         </span>
                                     </motion.div>
                                 )}
@@ -216,16 +222,16 @@ export const CheckoutModal = () => {
                                             </svg>
                                         </div>
 
-                                        <h2 className="text-3xl md:text-5xl font-serif text-white tracking-tight mb-4">Spoonergy™ no está disponible.</h2>
+                                        <h2 className="text-3xl md:text-5xl font-serif text-white tracking-tight mb-4">{t('checkout.fail.title')}</h2>
                                         <p className="text-lg md:text-xl font-serif italic text-zinc-400 mb-14">
-                                            Pero el equilibrio… ese sí lo está.
+                                            {t('checkout.fail.desc')}
                                         </p>
 
                                         <button 
                                             onClick={close}
                                             className={cn(buttonStyle, "bg-transparent text-white border border-white/20 hover:bg-white/5")}
                                         >
-                                            Volver
+                                            {t('checkout.back')}
                                         </button>
                                     </motion.div>
                                 )}

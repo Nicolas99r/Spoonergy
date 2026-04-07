@@ -1,0 +1,60 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { Preloader } from "../../components/Preloader";
+import { TheSpoon } from "../../components/TheSpoon";
+import HeroSection from "../../components/HeroSection.astro";
+import TransitionSection from "../../components/TransitionSection.astro";
+import BenefitsSection from "../../components/BenefitsSection.astro";
+import TechSection from "../../components/TechSection.astro";
+import DesignSection from "../../components/DesignSection.astro";
+import OrigenSection from "../../components/OrigenSection.astro";
+import ExperienciaSection from "../../components/ExperienciaSection.astro";
+import TestimoniosSection from "../../components/TestimoniosSection.astro";
+import FAQSection from "../../components/FAQSection.astro";
+import CTASection from "../../components/CTASection.astro";
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'en' } },
+    { params: { lang: 'es' } },
+  ];
+}
+
+const { lang } = Astro.params as { lang: 'es' | 'en' };
+---
+
+<Layout lang={lang}>
+	<Preloader client:load lang={lang} />
+
+	<!-- Placed before main so it natively renders UNDER main by DOM order (Parallax Curtain) -->
+	<CTASection lang={lang} />
+
+	<!-- No z-index trapping on main, allowing internal z-[60] text to globally overlap TheSpoon z-[50] -->
+	<main
+		class="relative z-[100] bg-transparent shadow-[0_20px_50px_rgba(0,0,0,0.5)] mb-[100vh]"
+	>
+		<!-- 1. Capa Base: Fondo Negro Stick (z-0) -->
+		<div class="sticky top-0 left-0 w-full h-[100vh] z-0 bg-black"></div>
+
+		<!-- 2. Capa Media: WebGL (Spoon + Smoke) (z-10) -->
+		<!-- Usamos mt-[-100vh] para que no desplace el contenido y ocupe el mismo espacio sticky -->
+		<div
+			class="sticky top-0 left-0 w-full h-[100vh] z-10 pointer-events-none mt-[-100vh]"
+		>
+			<TheSpoon client:load />
+		</div>
+
+		<!-- 3. Capa Superior: Interfaz de Usuario (z-20) -->
+		<div class="relative z-20 -mt-[100vh]">
+			<HeroSection lang={lang} />
+			<TransitionSection lang={lang} />
+			<BenefitsSection lang={lang} />
+			<TechSection lang={lang} />
+			<DesignSection lang={lang} />
+			<OrigenSection lang={lang} />
+			<ExperienciaSection lang={lang} />
+			<TestimoniosSection lang={lang} />
+			<FAQSection lang={lang} />
+		</div>
+	</main>
+</Layout>

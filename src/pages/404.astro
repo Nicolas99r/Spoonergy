@@ -1,8 +1,12 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
-<Layout title="404 | Fuera de Alineación">
+<Layout>
     <main
         class="relative h-screen w-full flex flex-col items-center justify-center bg-black overflow-hidden select-none"
     >
@@ -23,7 +27,7 @@ import Layout from "../layouts/Layout.astro";
                 <div class="absolute inset-0 flex items-center justify-center">
                     <span
                         class="text-xs font-mono tracking-[1em] text-zinc-500 uppercase mt-20"
-                        >Signal Lost</span
+                        >{t('404.signal')}</span
                     >
                 </div>
             </div>
@@ -31,20 +35,18 @@ import Layout from "../layouts/Layout.astro";
             <h1
                 class="text-2xl md:text-3xl font-serif text-zinc-200 tracking-tight mb-4"
             >
-                Parece que te has salido de tu eje.
+                {t('404.h1')}
             </h1>
 
             <p
                 class="text-sm md:text-base font-sans font-light text-zinc-500 max-w-md mb-12 leading-relaxed"
             >
-                La frecuencia que buscas no está disponible en esta dimensión. <br
-                />
-                Regresa al centro para recuperar el equilibrio.
+                {t('404.p')}
             </p>
 
             <a
-                href="/"
-                class="group relative px-12 py-5 px-4 bg-transparent border border-white/10 rounded-full overflow-hidden transition-all duration-500 hover:border-white/40"
+                href={`/${lang}/`}
+                class="group relative py-5 px-12 bg-transparent border border-white/10 rounded-full overflow-hidden transition-all duration-500 hover:border-white/40"
             >
                 <div
                     class="absolute inset-0 bg-white/5 translate-y-full group-hover:translate-y-0 transition-transform duration-500"
@@ -53,7 +55,7 @@ import Layout from "../layouts/Layout.astro";
                 <span
                     class="relative z-10 text-[10px] font-mono tracking-[0.4em] uppercase text-zinc-400 group-hover:text-white transition-colors duration-500"
                 >
-                    Volver al Inicio
+                    {t('404.back')}
                 </span>
             </a>
         </div>
