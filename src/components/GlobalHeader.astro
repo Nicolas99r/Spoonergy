@@ -12,144 +12,176 @@ const t = useTranslations(lang);
 
 <header
   id="global-header"
-  class="fixed top-0 left-0 w-full z-[200] transition-all duration-500 ease-in-out py-6 px-4 md:px-10 flex justify-center pointer-events-auto"
+  class="fixed top-0 left-0 w-full z-[600] transition-all duration-700 ease-in-out py-6 px-4 md:px-10 flex justify-center pointer-events-auto"
 >
   <div
     id="header-nav"
-    class="w-full max-w-6xl flex items-center justify-between transition-all duration-500 ease-out rounded-full border border-transparent"
+    class="w-full max-w-6xl flex items-center justify-between transition-all duration-700 ease-out rounded-full border border-transparent px-2 md:px-2"
   >
     <!-- Left: Logo -->
-    <div class="w-1/3 flex justify-start pl-2">
-      <a
-        href={`/${lang}/`}
-        class="font-sans font-medium tracking-[0.2em] text-xs text-zinc-100 uppercase hover:text-white transition-opacity duration-300"
-      >
-        SPOONERGY™
+    <div class="w-1/3 flex justify-start items-center pl-2">
+      <a href={`/${lang}/`} class="group flex items-center gap-3 relative z-[610]">
+        <img 
+          src="/favicon.png" 
+          alt="S" 
+          class="w-6 h-6 md:hidden object-contain brightness-110 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" 
+        />
+        <span class="hidden sm:inline-block font-sans font-medium tracking-[0.25em] text-[10px] md:text-xs text-zinc-100 uppercase">
+          SPOONERGY™
+        </span>
       </a>
     </div>
 
-    <!-- Center: Links -->
+    <!-- Center: Desktop Links -->
     <nav class="hidden md:flex w-1/3 justify-center gap-8">
-      <a
-        href="#overview"
-        class="text-xs font-sans text-zinc-400 hover:text-zinc-50 transition-colors tracking-wide"
-        >{t('nav.overview')}</a
-      >
-      <a
-        href="#how-it-works"
-        class="text-xs font-sans text-zinc-400 hover:text-zinc-50 transition-colors tracking-wide"
-        >{t('nav.how-it-works')}</a
-      >
-      <a
-        href="#design"
-        class="text-xs font-sans text-zinc-400 hover:text-zinc-50 transition-colors tracking-wide"
-        >{t('nav.design')}</a
-      >
-      <a
-        href="#questions"
-        class="text-xs font-sans text-zinc-400 hover:text-zinc-50 transition-colors tracking-wide"
-        >{t('nav.questions')}</a
-      >
+      <a href="#overview" class="text-[10px] uppercase font-sans text-zinc-400 hover:text-zinc-50 transition-colors tracking-[0.15em]">{t('nav.overview')}</a>
+      <a href="#how-it-works" class="text-[10px] uppercase font-sans text-zinc-400 hover:text-zinc-50 transition-colors tracking-[0.15em]">{t('nav.how-it-works')}</a>
+      <a href="#design" class="text-[10px] uppercase font-sans text-zinc-400 hover:text-zinc-50 transition-colors tracking-[0.15em]">{t('nav.design')}</a>
+      <a href="#questions" class="text-[10px] uppercase font-sans text-zinc-400 hover:text-zinc-50 transition-colors tracking-[0.15em]">{t('nav.questions')}</a>
     </nav>
 
-    <!-- Right: CTA + Language Switcher -->
-    <div class="w-1/3 flex items-center justify-end gap-6 pr-2">
-      <!-- Language Switcher -->
-      <div class="flex items-center gap-3 font-mono text-[10px] tracking-widest uppercase">
-        <a 
-          href="/es/" 
-          class={lang === 'es' ? 'text-white' : 'text-zinc-600 hover:text-zinc-400 transition-colors'}
-        >ES</a>
-        <span class="text-zinc-800">/</span>
-        <a 
-          href="/en/" 
-          class={lang === 'en' ? 'text-white' : 'text-zinc-600 hover:text-zinc-400 transition-colors'}
-        >EN</a>
-      </div>
-
+    <!-- Right: Mobile Menu Toggle + CTA -->
+    <div class="w-1/3 flex items-center justify-end gap-3 md:gap-6 pr-2">
       <a
         id="header-buy-button"
         href="#buy"
-        class="relative flex items-center justify-center bg-gradient-to-b from-zinc-50 to-zinc-300 text-zinc-950 font-sans tracking-wide text-xs px-6 py-[0.45rem] rounded-full truncate transition-all duration-500 ease-out shadow-[0_0_15px_rgba(255,255,255,0.15)] hover:shadow-[0_0_30px_rgba(255,255,255,0.7),0_0_60px_rgba(226,226,213,0.4)] hover:scale-105 hover:-translate-y-[2px] overflow-hidden group ring-1 ring-white/50 hover:ring-white"
+        class="relative z-[610] flex items-center justify-center bg-gradient-to-b from-zinc-50 to-zinc-300 text-zinc-950 font-sans tracking-widest text-[9px] md:text-xs px-4 md:px-6 py-[0.4rem] md:py-[0.45rem] rounded-full transition-all duration-500 overflow-hidden group ring-1 ring-white/50"
       >
-        <!-- Interactive internal shine sweep -->
-        <span
-          class="absolute top-0 left-0 w-[150%] h-full bg-gradient-to-r from-transparent via-white to-transparent skew-x-[-30deg] -translate-x-[150%] group-hover:translate-x-[150%] group-hover:transition-transform group-hover:duration-[1200ms] group-hover:ease-in-out pointer-events-none"
-        ></span>
-        <span
-          class="relative z-10 font-bold uppercase tracking-widest drop-shadow-sm"
-          >{t('nav.buy')}</span
-        >
+        <span class="absolute top-0 left-0 w-[150%] h-full bg-gradient-to-r from-transparent via-white to-transparent skew-x-[-30deg] -translate-x-[150%] group-hover:translate-x-[150%] group-hover:transition-transform group-hover:duration-[1000ms] pointer-events-none"></span>
+        <span class="relative z-10 font-bold uppercase drop-shadow-sm">{t('nav.buy')}</span>
       </a>
+
+      <!-- Menu Trigger -->
+      <button 
+        id="mobile-menu-trigger"
+        class="md:hidden flex flex-col items-end gap-1.5 p-2 focus:outline-none group relative z-[620]"
+        aria-label="Toggle Menu"
+      >
+        <span id="trigger-top" class="w-6 h-[1px] bg-zinc-300 transition-all duration-500 origin-center"></span>
+        <span id="trigger-bottom" class="w-4 h-[1px] bg-zinc-300 transition-all duration-500 origin-center"></span>
+      </button>
     </div>
   </div>
 </header>
 
-<script>
-  const header = document.getElementById("global-header");
-  const nav = document.getElementById("header-nav");
+<!-- Mobile Overlay Navigation: Top Priority Z-Index -->
+<div 
+  id="mobile-menu-overlay"
+  class="fixed inset-0 z-[550] bg-zinc-950/98 backdrop-blur-3xl opacity-0 pointer-events-none transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]"
+>
+  <div class="flex flex-col h-full items-center justify-center p-10">
+    <nav id="mobile-nav" class="flex flex-col items-center gap-10 text-center">
+      <a href="#overview" class="mobile-nav-link text-4xl font-serif text-zinc-100 translate-y-12 opacity-0 transition-all duration-700 ease-out">{t('nav.overview')}</a>
+      <a href="#how-it-works" class="mobile-nav-link text-4xl font-serif text-zinc-100 translate-y-12 opacity-0 transition-all duration-700 ease-out delay-[100ms]">{t('nav.how-it-works')}</a>
+      <a href="#design" class="mobile-nav-link text-4xl font-serif text-zinc-100 translate-y-12 opacity-0 transition-all duration-700 ease-out delay-[200ms]">{t('nav.design')}</a>
+      <a href="#questions" class="mobile-nav-link text-4xl font-serif text-zinc-100 translate-y-12 opacity-0 transition-all duration-700 ease-out delay-[300ms]">{t('nav.questions')}</a>
+    </nav>
 
-  if (header && nav) {
+    <div class="absolute bottom-16 flex flex-col items-center gap-6 opacity-0 translate-y-4 transition-all duration-1000 delay-[400ms]" id="mobile-menu-footer">
+      <div class="h-[1px] w-12 bg-zinc-800"></div>
+      <div class="flex gap-8 font-mono text-[10px] tracking-[0.4em] text-zinc-500 uppercase">
+        <a href="/es/" class={lang === 'es' ? 'text-zinc-100' : 'hover:text-zinc-300'}>ES</a>
+        <a href="/en/" class={lang === 'en' ? 'text-zinc-100' : 'hover:text-zinc-300'}>EN</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Robust initialization
+  function initHeader() {
+    const header = document.getElementById("global-header");
+    const nav = document.getElementById("header-nav");
+    const trigger = document.getElementById("mobile-menu-trigger");
+    const overlay = document.getElementById("mobile-menu-overlay");
+    const mobileLinks = document.querySelectorAll(".mobile-nav-link");
+    const mobileFooter = document.getElementById("mobile-menu-footer");
+    const triggerTop = document.getElementById("trigger-top");
+    const triggerBottom = document.getElementById("trigger-bottom");
+
+    if (!trigger || !overlay) return;
+
+    let isMenuOpen = false;
+
+    const toggleMenu = () => {
+      isMenuOpen = !isMenuOpen;
+      
+      if (isMenuOpen) {
+        // Open
+        overlay.style.opacity = "1";
+        overlay.style.pointerEvents = "auto";
+        
+        mobileLinks.forEach((link: any) => {
+          link.style.transform = "translateY(0)";
+          link.style.opacity = "1";
+        });
+        
+        if (mobileFooter) {
+          mobileFooter.style.transform = "translateY(0)";
+          mobileFooter.style.opacity = "1";
+        }
+
+        if (triggerTop && triggerBottom) {
+          triggerTop.style.transform = "translateY(4px) rotate(45deg)";
+          triggerTop.style.width = "24px";
+          triggerBottom.style.transform = "translateY(-3.5px) rotate(-45deg)";
+          triggerBottom.style.width = "24px";
+        }
+        
+        document.body.style.overflow = "hidden";
+      } else {
+        // Close
+        overlay.style.opacity = "0";
+        overlay.style.pointerEvents = "none";
+        
+        mobileLinks.forEach((link: any) => {
+          link.style.transform = "translateY(48px)";
+          link.style.opacity = "0";
+        });
+
+        if (mobileFooter) {
+          mobileFooter.style.transform = "translateY(16px)";
+          mobileFooter.style.opacity = "0";
+        }
+
+        if (triggerTop && triggerBottom) {
+          triggerTop.style.transform = "none";
+          triggerTop.style.width = "24px";
+          triggerBottom.style.transform = "none";
+          triggerBottom.style.width = "16px";
+        }
+        
+        document.body.style.overflow = "";
+      }
+    };
+
+    trigger.addEventListener("click", toggleMenu);
+
+    mobileLinks.forEach(link => {
+      link.addEventListener("click", () => {
+        if (isMenuOpen) toggleMenu();
+      });
+    });
+
     const handleScroll = () => {
       if (window.scrollY > 40) {
-        header.classList.remove("py-6", "px-4", "md:px-10");
-        header.classList.add("py-4", "px-4");
-
-        nav.classList.add(
-          "bg-zinc-900/30",
-          "backdrop-blur-xl",
-          "border-zinc-700/40",
-          "py-3",
-          "px-5",
-          "shadow-[0_8px_32px_rgba(0,0,0,0.2)]",
-        );
-        nav.classList.remove("border-transparent");
+        header?.classList.remove("py-6");
+        header?.classList.add("py-4");
+        nav?.classList.add("bg-zinc-950/50", "backdrop-blur-2xl", "border-zinc-800/50", "px-4", "py-2.5");
+        nav?.classList.remove("border-transparent");
       } else {
-        header.classList.add("py-6", "px-4", "md:px-10");
-        header.classList.remove("py-4", "px-4");
-
-        nav.classList.remove(
-          "bg-zinc-900/30",
-          "backdrop-blur-xl",
-          "border-zinc-700/40",
-          "py-3",
-          "px-5",
-          "shadow-[0_8px_32px_rgba(0,0,0,0.2)]",
-        );
-        nav.classList.add("border-transparent");
+        header?.classList.add("py-6");
+        header?.classList.remove("py-4");
+        nav?.classList.remove("bg-zinc-950/50", "backdrop-blur-2xl", "border-zinc-800/50", "px-4", "py-2.5");
+        nav?.classList.add("border-transparent");
       }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
-
-    // Smooth Scroll to Center Logic
-    const navLinks = document.querySelectorAll(
-      'nav a, #header-nav a[href^="#"]',
-    );
-    navLinks.forEach((link) => {
-      link.addEventListener("click", (e) => {
-        const targetId = link.getAttribute("href");
-        if (targetId && targetId.startsWith("#")) {
-          e.preventDefault();
-          const targetElement = document.querySelector(targetId);
-          if (targetElement) {
-            targetElement.scrollIntoView({
-              behavior: "smooth",
-              block: "center",
-            });
-          }
-        }
-      });
-    });
-
-    // Open Checkout Modal
-    const headerBuyBtn = document.getElementById("header-buy-button");
-    if (headerBuyBtn) {
-      headerBuyBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        window.dispatchEvent(new CustomEvent("open-checkout"));
-      });
-    }
   }
+
+  // Support for standard load and View Transitions
+  initHeader();
+  document.addEventListener('astro:after-swap', initHeader);
 </script>
