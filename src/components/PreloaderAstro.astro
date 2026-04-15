@@ -124,24 +124,14 @@ const phrases = [
         }, delayBeforeOpening);
     }
 
-    // LISTENER INTELIGENTE
-    let spoonReady = false;
-    let windowReady = false;
-
-    // 1. Escuchar a la cuchara 3D
-    window.addEventListener('spoon-loaded', () => {
-        spoonReady = true;
-        if (windowReady) finishLoader();
-    });
-
-    // 2. Escuchar al window load general
+    // Ya no esperamos a la pesada carga de la cuchara 3D, ya que la cuchara ahora 
+    // requiere interacción del usuario para cargar. Esto prevenía un deadlock de 5 segundos.
     window.addEventListener('load', () => {
-        windowReady = true;
-        // Si la cuchara ya estaba lista o si es una página sin cuchara
-        if (spoonReady || !document.querySelector('canvas')) finishLoader();
+        // En cuanto los assets críticos de HTML e imágenes carguen, abrimos.
+        finishLoader();
     });
 
-    // 3. Ciclo de frases (solo si no ha terminado ya)
+    // Ciclo de frases (solo si no ha terminado ya)
     let phraseIndex = 0;
     const phraseEl = document.getElementById('preloader-phrase');
     const phraseInterval = setInterval(() => {
@@ -158,7 +148,7 @@ const phrases = [
         }, 300);
     }, 1200);
 
-    // 4. Fallback de seguridad: Si a los 5 segundos no ha cargado, forzamos apertura
+    // Fallback de seguridad: Si a los 5 segundos algo catastrófico bloquea load, abrimos.
     setTimeout(() => {
         if (!isFinished) finishLoader();
     }, 5000);

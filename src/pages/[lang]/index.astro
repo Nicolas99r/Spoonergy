@@ -33,49 +33,47 @@ const { lang } = Astro.params as { lang: 'es' | 'en' };
 	<main
 		class="relative z-[100] bg-transparent shadow-[0_20px_50px_rgba(0,0,0,0.5)] mb-[100vh]"
 	>
-		<!-- 1. Capa Base: Fondo Negro Stick (z-0) -->
-		<div class="sticky top-0 left-0 w-full h-[100vh] z-0 bg-black"></div>
+		<div class="grid w-full grid-cols-1">
+			<!-- Capa Base: Fondo Negro Stick y WebGL (z-0 a z-10) -->
+			<!-- Al usar Grid, se superpone perfectamente sin márgenes negativos que causen CLS -->
+			<div class="col-start-1 row-start-1 w-full h-full pointer-events-none">
+				<div class="sticky top-0 left-0 w-full h-[100vh] z-0 bg-black pointer-events-auto">
+					<div id="lcp-poster" class="absolute inset-0 flex items-center justify-center z-0 pointer-events-none">
+						<img 
+							src="/Spoon.png" 
+							alt="Spoonergy" 
+							fetchpriority="high"
+							class="w-auto h-[60vh] object-contain opacity-80"
+						/>
+					</div>
 
-		<!-- 2. Capa Media: WebGL (Spoon + Smoke) (z-10) -->
-		<!-- Usamos mt-[-100vh] para que no desplace el contenido y ocupe el mismo espacio sticky -->
-		<div
-			class="sticky top-0 left-0 w-full h-[100vh] z-10 pointer-events-none mt-[-100vh]"
-		>
-			<div id="lcp-poster" class="absolute inset-0 flex items-center justify-center z-0">
-				<img 
-					src="/Spoon.png" 
-					alt="Spoonergy" 
-					fetchpriority="high"
-					class="w-auto h-[60vh] object-contain opacity-80"
-				/>
+					<!-- La capa de React Three Fiber -->
+					<DeferredSpoon client:only="react" />
+
+					<script is:inline>
+						window.addEventListener('spoon-loaded', () => {
+							const poster = document.getElementById('lcp-poster');
+							if (poster) {
+								poster.style.transition = 'opacity 0.4s ease-out';
+								poster.style.opacity = '0';
+							}
+						});
+					</script>
+				</div>
 			</div>
 
-			<DeferredSpoon client:only="react" />
-
-			<script is:inline>
-				window.addEventListener('spoon-loaded', () => {
-					const poster = document.getElementById('lcp-poster');
-					if (poster) {
-						// Cambio suave de opacidad. Mantenemos el nodo en el DOM pero pointer-events-none 
-                        // para que Google Lighthouse no penalice la "eliminación" del LCP Element
-						poster.style.transition = 'opacity 0.4s ease-out';
-                        poster.style.opacity = '0';
-					}
-				});
-			</script>
-		</div>
-
-		<!-- 3. Capa Superior: Interfaz de Usuario (z-20) -->
-		<div class="relative z-20 -mt-[100vh]">
-			<HeroSection lang={lang} />
-			<TransitionSection lang={lang} />
-			<BenefitsSection lang={lang} />
-			<TechSection lang={lang} />
-			<DesignSection lang={lang} />
-			<OrigenSection lang={lang} />
-			<ExperienciaSection lang={lang} />
-			<TestimoniosSection lang={lang} />
-			<FAQSection lang={lang} />
+			<!-- Capa Superior: Interfaz de Usuario (z-20) -->
+			<div class="col-start-1 row-start-1 relative z-20">
+				<HeroSection lang={lang} />
+				<TransitionSection lang={lang} />
+				<BenefitsSection lang={lang} />
+				<TechSection lang={lang} />
+				<DesignSection lang={lang} />
+				<OrigenSection lang={lang} />
+				<ExperienciaSection lang={lang} />
+				<TestimoniosSection lang={lang} />
+				<FAQSection lang={lang} />
+			</div>
 		</div>
 	</main>
 </Layout>
