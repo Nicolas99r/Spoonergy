@@ -20,6 +20,8 @@ const t = useTranslations(lang);
             src="/macro-metal.png"
             alt="Macro Metal Background"
             class="w-full h-full object-cover opacity-20 mix-blend-screen"
+            loading="lazy"
+            decoding="async"
         />
         <div
             class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-zinc-950"
@@ -36,7 +38,7 @@ const t = useTranslations(lang);
             {t('tech.title')}
         </h2>
         <div
-            class="text-lg md:text-xl font-sans font-light text-zinc-300 w-full space-y-4"
+            class="text-lg md:text-xl font-sans font-light text-zinc-200 w-full space-y-4"
         >
             <p>
                 {t('tech.p1')}

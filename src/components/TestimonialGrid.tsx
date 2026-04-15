@@ -45,7 +45,7 @@ const TestimonialCard = ({ quote, author, tag, delay = 0, className }: Testimoni
                     <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
                 </svg>
                 
-                <p className="text-xl md:text-2xl lg:text-3xl font-serif text-zinc-300 leading-relaxed tracking-wide mb-12 transition-colors duration-500 group-hover:text-zinc-100">
+                <p className="text-xl md:text-2xl lg:text-3xl font-serif text-zinc-200 leading-relaxed tracking-wide mb-12 transition-colors duration-500 group-hover:text-zinc-50">
                     {quote}
                 </p>
             </div>
@@ -55,7 +55,7 @@ const TestimonialCard = ({ quote, author, tag, delay = 0, className }: Testimoni
                     <span className="font-sans font-medium text-zinc-200 text-sm md:text-base tracking-wide uppercase">
                         {author}
                     </span>
-                    <span className="font-sans font-light text-zinc-500 text-xs md:text-sm mt-1">
+                    <span className="font-sans font-light text-zinc-400 text-xs md:text-sm mt-1">
                         {tag}
                     </span>
                 </div>
@@ -103,7 +103,7 @@ export const TestimonialGrid = ({ lang = 'es' }: TestimonialGridProps) => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-10%" }}
                     transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
-                    className="text-zinc-400 mt-6 text-lg md:text-xl font-light tracking-wide"
+                    className="text-zinc-300 mt-6 text-lg md:text-xl font-light tracking-wide"
                 >
                     {lang === 'en' ? "Don't trust us. Trust the experience." : "No confíes en nosotros. Confía en la experiencia."}
                 </motion.p>

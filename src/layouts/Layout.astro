@@ -1,4 +1,13 @@
 ---
+import "@fontsource/cormorant-garamond/300.css";
+import "@fontsource/cormorant-garamond/400.css";
+import "@fontsource/cormorant-garamond/500.css";
+import "@fontsource/cormorant-garamond/600.css";
+import "@fontsource/cormorant-garamond/700.css";
+import "@fontsource/inter/300.css";
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/500.css";
+import "@fontsource/inter/600.css";
 import "../styles/global.css";
 import GlobalHeader from "../components/GlobalHeader.astro";
 import { CheckoutModal } from "../components/CheckoutModal";
@@ -67,7 +76,7 @@ const title = propTitle ? `${propTitle} | Spoonergy` : "Spoonergy";
         >
         </div>
 
-        <CheckoutModal client:load lang={lang} />
+        <CheckoutModal client:idle lang={lang} />
         <GlobalHeader lang={lang} />
 
         <slot />

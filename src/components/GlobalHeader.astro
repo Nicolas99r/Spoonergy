@@ -34,16 +34,16 @@ const t = useTranslations(lang);
 
     <!-- Center: Desktop Links -->
     <nav class="hidden md:flex w-1/3 justify-center gap-5 lg:gap-8">
-      <a href="#overview" class="text-[10px] uppercase font-sans text-zinc-400 hover:text-zinc-50 transition-colors tracking-[0.15em] whitespace-nowrap">{t('nav.overview')}</a>
-      <a href="#how-it-works" class="text-[10px] uppercase font-sans text-zinc-400 hover:text-zinc-50 transition-colors tracking-[0.15em] whitespace-nowrap">{t('nav.how-it-works')}</a>
-      <a href="#design" class="text-[10px] uppercase font-sans text-zinc-400 hover:text-zinc-50 transition-colors tracking-[0.15em] whitespace-nowrap">{t('nav.design')}</a>
-      <a href="#questions" class="text-[10px] uppercase font-sans text-zinc-400 hover:text-zinc-50 transition-colors tracking-[0.15em] whitespace-nowrap">{t('nav.questions')}</a>
+      <a href="#overview" class="text-[10px] uppercase font-sans text-zinc-300 hover:text-zinc-50 transition-colors tracking-[0.15em] whitespace-nowrap">{t('nav.overview')}</a>
+      <a href="#how-it-works" class="text-[10px] uppercase font-sans text-zinc-300 hover:text-zinc-50 transition-colors tracking-[0.15em] whitespace-nowrap">{t('nav.how-it-works')}</a>
+      <a href="#design" class="text-[10px] uppercase font-sans text-zinc-300 hover:text-zinc-50 transition-colors tracking-[0.15em] whitespace-nowrap">{t('nav.design')}</a>
+      <a href="#questions" class="text-[10px] uppercase font-sans text-zinc-300 hover:text-zinc-50 transition-colors tracking-[0.15em] whitespace-nowrap">{t('nav.questions')}</a>
     </nav>
 
     <!-- Right: Mobile Menu Toggle + CTA -->
     <div class="w-1/3 flex items-center justify-end gap-3 md:gap-6 pr-2">
       <!-- Desktop Language Selector -->
-      <div class="hidden md:flex gap-3 font-mono text-[10px] tracking-[0.2em] text-zinc-500 uppercase">
+      <div class="hidden md:flex gap-3 font-mono text-[10px] tracking-[0.2em] text-zinc-400 uppercase">
         <a href="/es/" class={`transition-colors ${lang === 'es' ? 'text-zinc-100' : 'hover:text-zinc-300'}`}>ES</a>
         <span class="text-zinc-800">/</span>
         <a href="/en/" class={`transition-colors ${lang === 'en' ? 'text-zinc-100' : 'hover:text-zinc-300'}`}>EN</a>

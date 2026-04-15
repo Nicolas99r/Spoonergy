@@ -1,6 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { Preloader } from "../../components/Preloader";
+import PreloaderAstro from "../../components/PreloaderAstro.astro";
 import { TheSpoon } from "../../components/TheSpoon";
 import HeroSection from "../../components/HeroSection.astro";
 import TransitionSection from "../../components/TransitionSection.astro";
@@ -24,7 +24,7 @@ const { lang } = Astro.params as { lang: 'es' | 'en' };
 ---
 
 <Layout lang={lang}>
-	<Preloader client:load lang={lang} />
+	<PreloaderAstro lang={lang} />
 
 	<!-- Placed before main so it natively renders UNDER main by DOM order (Parallax Curtain) -->
 	<CTASection lang={lang} />
@@ -41,7 +41,26 @@ const { lang } = Astro.params as { lang: 'es' | 'en' };
 		<div
 			class="sticky top-0 left-0 w-full h-[100vh] z-10 pointer-events-none mt-[-100vh]"
 		>
-			<TheSpoon client:load />
+			<div id="lcp-poster" class="absolute inset-0 flex items-center justify-center z-0">
+				<img 
+					src="/Spoon.png" 
+					alt="Spoonergy" 
+					fetchpriority="high"
+					class="w-auto h-[60vh] object-contain opacity-80"
+				/>
+			</div>
+
+			<TheSpoon client:only="react" />
+
+			<script is:inline>
+				window.addEventListener('spoon-loaded', () => {
+					const poster = document.getElementById('lcp-poster');
+					if (poster) {
+						// Cambio inmediato para ocultar el poster en cuanto el Canvas está listo
+						poster.style.display = 'none';
+					}
+				});
+			</script>
 		</div>
 
 		<!-- 3. Capa Superior: Interfaz de Usuario (z-20) -->

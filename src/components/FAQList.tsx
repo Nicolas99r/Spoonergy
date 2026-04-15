@@ -41,7 +41,7 @@ export const FAQList = ({ lang = 'es' }: FAQListProps) => {
                     <h3 className="text-lg font-sans text-zinc-200 mb-3 transition-colors duration-300 group-hover:text-white">
                         {faq.q}
                     </h3>
-                    <p className="text-zinc-400 font-light text-base transition-colors duration-300 group-hover:text-zinc-300">
+                    <p className="text-zinc-300 font-light text-base transition-colors duration-300 group-hover:text-zinc-200">
                         {faq.a}
                     </p>
 

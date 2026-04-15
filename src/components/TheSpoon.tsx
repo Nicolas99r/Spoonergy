@@ -83,6 +83,7 @@ const SpoonModel = ({ rotateValue, scaleValue, xValue, yValue, isHovered, curren
                 child.receiveShadow = true;
             }
         });
+        window.dispatchEvent(new CustomEvent('spoon-loaded'));
     }, [scene]);
 
     useFrame(() => {

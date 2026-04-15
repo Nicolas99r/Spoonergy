@@ -27,7 +27,7 @@ const ScannedCard = ({ title, description, progress, range }: ScannedCardProps) 
             <Card className="w-full max-w-xl shadow-2xl bg-zinc-950/40 backdrop-blur-xl border border-zinc-800/40">
                 <CardHeader>
                     <CardTitle className="text-3xl md:text-4xl text-zinc-100">{title}</CardTitle>
-                    <CardDescription className="text-lg md:text-xl mt-4 text-zinc-400">{description}</CardDescription>
+                    <CardDescription className="text-lg md:text-xl mt-4 text-zinc-300">{description}</CardDescription>
                 </CardHeader>
             </Card>
         </motion.div>
