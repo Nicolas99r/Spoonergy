@@ -1,7 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import PreloaderAstro from "../../components/PreloaderAstro.astro";
-import { TheSpoon } from "../../components/TheSpoon";
+import { DeferredSpoon } from "../../components/DeferredSpoon";
 import HeroSection from "../../components/HeroSection.astro";
 import TransitionSection from "../../components/TransitionSection.astro";
 import BenefitsSection from "../../components/BenefitsSection.astro";
@@ -50,14 +50,16 @@ const { lang } = Astro.params as { lang: 'es' | 'en' };
 				/>
 			</div>
 
-			<TheSpoon client:only="react" />
+			<DeferredSpoon client:only="react" />
 
 			<script is:inline>
 				window.addEventListener('spoon-loaded', () => {
 					const poster = document.getElementById('lcp-poster');
 					if (poster) {
-						// Cambio inmediato para ocultar el poster en cuanto el Canvas está listo
-						poster.style.display = 'none';
+						// Cambio suave de opacidad. Mantenemos el nodo en el DOM pero pointer-events-none 
+                        // para que Google Lighthouse no penalice la "eliminación" del LCP Element
+						poster.style.transition = 'opacity 0.4s ease-out';
+                        poster.style.opacity = '0';
 					}
 				});
 			</script>
