@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '../lib/utils';
 import { playSound } from '../lib/audio';
@@ -98,7 +98,7 @@ export const CheckoutModal = ({ lang = 'es' }: CheckoutModalProps) => {
                                     >
                                         <div className="w-24 h-24 mb-10 flex items-center justify-center relative">
                                             <div className="absolute inset-0 bg-white/5 blur-3xl rounded-full"></div>
-                                            <img src="/Spoon.png" alt="Spoonergy" className="w-16 h-16 object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]" />
+                                            <img src="/Spoon.webp" alt="Spoonergy" className="w-16 h-16 object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]" />
                                         </div>
 
                                         <h2 className="text-3xl md:text-4xl font-serif text-white tracking-tight mb-2">Spoonergy™</h2>
@@ -145,7 +145,7 @@ export const CheckoutModal = ({ lang = 'es' }: CheckoutModalProps) => {
                                         <div className="flex items-center justify-between py-6 border-b border-white/5 mb-12">
                                             <div className="flex items-center gap-6">
                                                 <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center">
-                                                    <img src="/Spoon.png" alt="Item" className="w-8 h-8 object-contain" />
+                                                    <img src="/Spoon.webp" alt="Item" className="w-8 h-8 object-contain" />
                                                 </div>
                                                 <div className="flex flex-col">
                                                     <span className="text-sm font-sans font-medium text-white">Spoonergy™</span>

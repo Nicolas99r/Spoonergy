@@ -4,9 +4,11 @@ import { useState, useEffect, lazy, Suspense } from 'react';
 const LazySpoon = lazy(() => import('./TheSpoon').then(m => ({ default: m.TheSpoon })));
 
 export const DeferredSpoon = (props: any) => {
-    const [shouldLoad, setShouldLoad] = useState(false);
+    const [shouldLoad, setShouldLoad] = useState(props.loadInstantly || false);
 
     useEffect(() => {
+        if (props.loadInstantly) return;
+
         // Universal Deferral: Deferimos el pesado webGL hasta que 
         // Lighthouse haya medido el LCP/FCP, o el usuario realice una interacción real.
         const handleAction = () => {

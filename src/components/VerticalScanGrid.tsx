@@ -1,4 +1,5 @@
-import { motion, useScroll, useTransform, useSpring, MotionValue } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import type { MotionValue } from "framer-motion";
 import { useRef } from "react";
 import { Card, CardHeader, CardTitle, CardDescription } from "./ui/Card";
 import { ui } from "../i18n/ui";

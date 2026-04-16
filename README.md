@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./public/images/readme-hero.png" width="100%" alt="Spoonergy Hero Image" />
+  <img src="./public/images/readme-hero.webp" width="100%" alt="Spoonergy Hero Image" />
 </p>
 
 # 🥄 Spoonergy™

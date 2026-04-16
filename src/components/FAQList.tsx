@@ -55,7 +55,7 @@ export const FAQList = ({ lang = 'es' }: FAQListProps) => {
                                 className="absolute -right-4 md:-right-24 top-0 h-full flex items-center justify-center pointer-events-none"
                             >
                                 <motion.img 
-                                    src="/Spoon.png" 
+                                    src="/Spoon.webp" 
                                     alt="Indicator" 
                                     className="h-16 md:h-20 w-auto object-contain -rotate-90 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]"
                                     animate={{ 

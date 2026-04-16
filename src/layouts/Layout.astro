@@ -1,13 +1,9 @@
 ---
-import "@fontsource/cormorant-garamond/300.css";
 import "@fontsource/cormorant-garamond/400.css";
-import "@fontsource/cormorant-garamond/500.css";
-import "@fontsource/cormorant-garamond/600.css";
 import "@fontsource/cormorant-garamond/700.css";
 import "@fontsource/inter/300.css";
 import "@fontsource/inter/400.css";
 import "@fontsource/inter/500.css";
-import "@fontsource/inter/600.css";
 import "../styles/global.css";
 import GlobalHeader from "../components/GlobalHeader.astro";
 import { CheckoutModal } from "../components/CheckoutModal";
@@ -53,8 +49,8 @@ const title = propTitle ? `${propTitle} | Spoonergy` : "Spoonergy";
         <meta property="twitter:image" content="/og-preview.png" />
 
         <!-- Favicons & Mobile Icons -->
-        <link rel="icon" type="image/png" href="/favicon.png" />
-        <link rel="apple-touch-icon" href="/favicon.png" />
+        <link rel="icon" type="image/png" href="/favicon-small.png" />
+        <link rel="apple-touch-icon" href="/favicon-small.png" />
         <link rel="manifest" href="/manifest.json" />
         
         <link rel="canonical" href={`https://spoonergy.com/${lang}/`} />
@@ -65,7 +61,7 @@ const title = propTitle ? `${propTitle} | Spoonergy` : "Spoonergy";
         <!-- Global Noise Overlay (Behind Spoon z-50, Above BG) -->
         <div
             class="pointer-events-none fixed inset-0 z-[40] h-full w-full opacity-[0.04] mix-blend-overlay"
-            style="background-image: url('/noise.png');"
+            style="background-image: url('/noise.webp');"
         >
         </div>
  
