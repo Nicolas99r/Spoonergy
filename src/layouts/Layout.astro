@@ -86,17 +86,24 @@ const title = propTitle ? `${propTitle} | Spoonergy` : "Spoonergy";
             }
             window.scrollTo(0, 0);
 
-            // Initialize Lenis
-            const lenis = new Lenis({
-                lerp: 0.05,
-            });
+            // Initialize Lenis deferred on first scroll
+            let lenis: Lenis | null = null;
+            const initLenis = () => {
+                if (lenis) return;
+                lenis = new Lenis({
+                    lerp: 0.05,
+                });
 
-            function raf(time: number) {
-                lenis.raf(time);
+                function raf(time: number) {
+                    lenis?.raf(time);
+                    requestAnimationFrame(raf);
+                }
                 requestAnimationFrame(raf);
-            }
+            };
 
-            requestAnimationFrame(raf);
+            window.addEventListener('scroll', initLenis, { once: true, passive: true });
+            window.addEventListener('wheel', initLenis, { once: true, passive: true });
+            window.addEventListener('touchstart', initLenis, { once: true, passive: true });
 
             // Smooth scroll for anchor queries
             document.querySelectorAll('a[href^="#"]').forEach((anchor) => {

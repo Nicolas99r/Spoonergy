@@ -14,13 +14,10 @@ import FAQSection from "../../components/FAQSection.astro";
 import CTASection from "../../components/CTASection.astro";
 
 export function getStaticPaths() {
-  return [
-    { params: { lang: 'en' } },
-    { params: { lang: 'es' } },
-  ];
+	return [{ params: { lang: "en" } }, { params: { lang: "es" } }];
 }
 
-const { lang } = Astro.params as { lang: 'es' | 'en' };
+const { lang } = Astro.params as { lang: "es" | "en" };
 
 // Switch para activar o desactivar temporalmente el loader y el thumbnail
 const ENABLE_PRELOADER = false;
@@ -40,32 +37,39 @@ const ENABLE_PRELOADER = false;
 			<!-- Capa Base: Fondo Negro Stick y WebGL (z-0 a z-10) -->
 			<!-- Al usar Grid, se superpone perfectamente sin márgenes negativos que causen CLS -->
 			<div class="col-start-1 row-start-1 w-full h-full pointer-events-none">
-				<div class="sticky top-0 left-0 w-full h-[100vh] z-0 bg-black pointer-events-auto">
-					{ENABLE_PRELOADER && (
-						<div id="lcp-poster" class="absolute inset-0 flex items-center justify-center z-0 pointer-events-none">
-							<img 
-								src="/Spoon.webp" 
-								alt="Spoonergy" 
-								fetchpriority="high"
-								class="w-auto h-[60vh] object-contain opacity-80"
-							/>
-						</div>
-					)}
+				<div
+					class="sticky top-0 left-0 w-full h-[100vh] z-0 bg-black pointer-events-auto"
+				>
+					<!-- Imagen de póster LCP siempre visible inicialmente -->
+					<div
+						id="lcp-poster"
+						class="absolute inset-0 flex items-center justify-center z-0 pointer-events-none"
+					>
+						<img
+							src="/spoon-placeholder.webp"
+							alt="Spoonergy"
+							fetchpriority="high"
+							class="w-[750px] pb-20 h-auto object-contain opacity-100"
+						/>
+					</div>
 
-					<!-- La capa de React Three Fiber -->
-					<DeferredSpoon client:only="react" loadInstantly={!ENABLE_PRELOADER} />
+					<!-- La capa de React Three Fiber cargada al cargar la página para asegurar aparición automática -->
+					<DeferredSpoon client:load loadInstantly={!ENABLE_PRELOADER} />
 
-					{ENABLE_PRELOADER && (
-						<script is:inline>
-							window.addEventListener('spoon-loaded', () => {
-								const poster = document.getElementById('lcp-poster');
-								if (poster) {
-									poster.style.transition = 'opacity 0.4s ease-out';
-									poster.style.opacity = '0';
-								}
-							});
-						</script>
-					)}
+					<script is:inline>
+						const handleSpoonLoaded = () => {
+							const poster = document.getElementById("lcp-poster");
+							if (poster) {
+								poster.style.transition = "opacity 0.3s ease-out";
+								poster.style.opacity = "0";
+								setTimeout(() => {
+									if (poster.parentElement) poster.remove();
+								}, 300);
+							}
+							window.removeEventListener("spoon-loaded", handleSpoonLoaded);
+						};
+						window.addEventListener("spoon-loaded", handleSpoonLoaded);
+					</script>
 				</div>
 			</div>
 
