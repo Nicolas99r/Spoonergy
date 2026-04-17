@@ -7,26 +7,7 @@ export const DeferredSpoon = (props: any) => {
     const [shouldLoad, setShouldLoad] = useState(props.loadInstantly || false);
 
     useEffect(() => {
-        // Estrategia PageSpeed: No cargar NADA pesado hasta que el navegador esté ocioso
-        // o hayan pasado al menos 2 segundos de aire para que FCP/LCP respiren.
-        const startDeferredLoad = () => {
-            const idleCallback = (window as any).requestIdleCallback || ((cb: any) => setTimeout(cb, 1));
-            
-            idleCallback(() => {
-                setTimeout(() => {
-                    setShouldLoad(true);
-                }, props.loadInstantly ? 2000 : 0);
-            });
-        };
-
-        if (props.loadInstantly) {
-            if (document.readyState === 'complete') {
-                startDeferredLoad();
-            } else {
-                window.addEventListener('load', startDeferredLoad, { once: true });
-            }
-            return;
-        }
+        if (props.loadInstantly) return;
 
         // Universal Deferral: Deferimos el pesado webGL hasta que 
         // Lighthouse haya medido el LCP/FCP, o el usuario realice una interacción real.
@@ -55,7 +36,7 @@ export const DeferredSpoon = (props: any) => {
             window.removeEventListener('wheel', handleAction);
             clearTimeout(fallbackTimer);
         };
-    }, [props.loadInstantly]);
+    }, []);
 
     if (!shouldLoad) return null;
 
