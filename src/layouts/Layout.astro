@@ -119,10 +119,14 @@ const title = propTitle ? `${propTitle} | Spoonergy` : "Spoonergy";
             // Spotlight cursor effect
             const spotlight = document.getElementById("spotlight");
             if (spotlight) {
+                let rafId: number;
                 window.addEventListener("mousemove", (e) => {
-                    spotlight.style.opacity = "1";
-                    spotlight.style.setProperty("--x", `${e.clientX}px`);
-                    spotlight.style.setProperty("--y", `${e.clientY}px`);
+                    cancelAnimationFrame(rafId);
+                    rafId = requestAnimationFrame(() => {
+                        spotlight.style.opacity = "1";
+                        spotlight.style.setProperty("--x", `${e.clientX}px`);
+                        spotlight.style.setProperty("--y", `${e.clientY}px`);
+                    });
                 });
                 window.addEventListener("mouseleave", () => {
                     spotlight.style.opacity = "0";

@@ -66,7 +66,7 @@ const FluidLayer = ({ isHovered }: { isHovered: boolean }) => {
 
 // Sub-componente WebGL para la Cuchara 3D
 const SpoonModel = ({ rotateValue, scaleValue, xValue, yValue, isHovered, currentPhase, onHoverChange }: any) => {
-    const { scene } = useGLTF('/uploads_files_5450612_cgt_fmcg_cutlery_020.glb');
+    const { scene } = useGLTF('/bec02450-cf3d-4613-a784-0b35e03f9c18.glb');
     const meshRef = useRef<THREE.Group>(null);
     const { viewport } = useThree();
     
@@ -132,6 +132,11 @@ export const TheSpoon = ({ className, ...props }: TheSpoonProps) => {
     const [isHovered, setIsHovered] = useState(false);
     const [currentPhase, setCurrentPhase] = useState(0); 
     const [ctaHovered, setCtaHovered] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        setIsMobile(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
+    }, []);
 
     useMotionValueEvent(scrollYProgress, "change", (latest: number) => {
         if (latest < 0.1) setCurrentPhase(0);       
@@ -241,7 +246,7 @@ export const TheSpoon = ({ className, ...props }: TheSpoonProps) => {
                 <Environment preset="studio" />
                 
                 <Suspense fallback={null}>
-                    <FluidLayer isHovered={isHovered} />
+                    {!isMobile && <FluidLayer isHovered={isHovered} />}
                     <SpoonModel 
                         rotateValue={rotate} scaleValue={scaleValue} 
                         xValue={xValue} yValue={yValue}
@@ -250,7 +255,14 @@ export const TheSpoon = ({ className, ...props }: TheSpoonProps) => {
                     />
                 </Suspense>
 
-                <ContactShadows position={[0, -3, 0]} opacity={0.4} scale={10} blur={2} far={5} />
+                <ContactShadows 
+                    position={[0, -3, 0]} 
+                    opacity={0.4} 
+                    scale={10} 
+                    blur={2} 
+                    far={5} 
+                    frames={isMobile ? 1 : 40} 
+                />
             </Canvas>
         </motion.div>
     );

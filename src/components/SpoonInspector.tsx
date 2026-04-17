@@ -4,7 +4,7 @@ import { useGLTF, OrbitControls, Environment, Center, ContactShadows, Float } fr
 import * as THREE from 'three';
 
 const SpoonModel = () => {
-    const { scene } = useGLTF('/uploads_files_5450612_cgt_fmcg_cutlery_020.glb');
+    const { scene } = useGLTF('/bec02450-cf3d-4613-a784-0b35e03f9c18.glb');
     
     // IMPORTANT: Clone the scene to avoid mutating the main spoon used in the rest of the page
     const clonedScene = React.useMemo(() => scene.clone(), [scene]);
