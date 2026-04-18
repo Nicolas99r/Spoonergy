@@ -1,5 +1,5 @@
 ---
-import { SpoonInspector } from "./SpoonInspector";
+import { DeferredInspector } from "./DeferredInspector";
 import { useTranslations } from "../i18n/utils";
 
 interface Props {
@@ -28,7 +28,7 @@ const t = useTranslations(lang);
         <div
             class="pointer-events-auto order-2 lg:order-1 max-w-[280px] md:max-w-md mx-auto lg:mx-0 w-full animate-fade-in group"
         >
-            <SpoonInspector client:visible />
+            <DeferredInspector client:only="react" />
             <p
                 class="mt-2 md:mt-4 text-[9px] md:text-[10px] text-zinc-600 font-mono tracking-widest text-center lg:text-left opacity-0 group-hover:opacity-100 transition-opacity duration-700"
             >

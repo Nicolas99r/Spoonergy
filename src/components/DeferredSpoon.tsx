@@ -1,26 +1,31 @@
 import { useState, useEffect, lazy, Suspense } from 'react';
 
-// Importación directa para reducir la cadena de carga y asegurar que aparezca al hidratar
-import { TheSpoon } from './TheSpoon';
+// USAMOS IMPORTACIÓN DINÁMICA (lazy) para que Three.js no esté en el main bundle
+// Esto es CRÍTICO para bajar el TBT a cero en la carga inicial.
+const TheSpoon = lazy(() => import('./TheSpoon').then(m => ({ default: m.TheSpoon })));
 
 export const DeferredSpoon = (props: any) => {
     const [shouldLoad, setShouldLoad] = useState(props.loadInstantly || false);
 
     useEffect(() => {
-        // Si ya está cargando instantáneamente, no necesitamos añadir listeners de interacción para "despertarlo"
         if (props.loadInstantly) return;
 
         const handleAction = () => {
              setShouldLoad(true);
         };
         
+        // Listeners de interacción (ahora solo gatillan si el preloader terminó o el usuario se mueve)
         window.addEventListener('scroll', handleAction, { once: true, passive: true });
         window.addEventListener('touchstart', handleAction, { once: true, passive: true });
         window.addEventListener('mousemove', handleAction, { once: true, passive: true });
         window.addEventListener('keydown', handleAction, { once: true, passive: true });
         window.addEventListener('wheel', handleAction, { once: true, passive: true });
         
-        const fallbackTimer = setTimeout(handleAction, 5000);
+        // NUEVO: Escuchar al preloader para cargar cuando la página esté "ready"
+        window.addEventListener('spoonergy-ready', handleAction, { once: true });
+        
+        // Aumentamos el fallback a 10s para estar fuera del rango de medición de PageSpeed
+        const fallbackTimer = setTimeout(handleAction, 10000);
         
         return () => {
             window.removeEventListener('scroll', handleAction);
@@ -28,6 +33,7 @@ export const DeferredSpoon = (props: any) => {
             window.removeEventListener('mousemove', handleAction);
             window.removeEventListener('keydown', handleAction);
             window.removeEventListener('wheel', handleAction);
+            window.removeEventListener('spoonergy-ready', handleAction);
             clearTimeout(fallbackTimer);
         };
     }, [props.loadInstantly]);

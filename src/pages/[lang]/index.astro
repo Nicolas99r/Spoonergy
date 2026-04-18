@@ -27,7 +27,7 @@ const ENABLE_PRELOADER = true;
 	{ENABLE_PRELOADER && <PreloaderAstro lang={lang} />}
 
 	<!-- Placed before main so it natively renders UNDER main by DOM order (Parallax Curtain) -->
-	<CTASection lang={lang} />
+
 
 	<!-- No z-index trapping on main, allowing internal z-[60] text to globally overlap TheSpoon z-[50] -->
 	<main
@@ -87,4 +87,6 @@ const ENABLE_PRELOADER = true;
 			</div>
 		</div>
 	</main>
+
+	<CTASection lang={lang} />
 </Layout>

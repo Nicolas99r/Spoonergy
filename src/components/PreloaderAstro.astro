@@ -119,7 +119,10 @@ const phrases = [
             }
 
             setTimeout(() => {
-                if (container) container.remove();
+                if (container) {
+                    container.remove();
+                    window.dispatchEvent(new CustomEvent('spoonergy-ready'));
+                }
             }, 1200);
         }, delayBeforeOpening);
     }
