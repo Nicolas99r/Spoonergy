@@ -20,7 +20,7 @@ export function getStaticPaths() {
 const { lang } = Astro.params as { lang: "es" | "en" };
 
 // Switch para activar o desactivar temporalmente el loader y el thumbnail
-const ENABLE_PRELOADER = false;
+const ENABLE_PRELOADER = true;
 ---
 
 <Layout lang={lang}>
@@ -54,7 +54,7 @@ const ENABLE_PRELOADER = false;
 					</div>
 
 					<!-- La capa de React Three Fiber cargada al cargar la página para asegurar aparición automática -->
-					<DeferredSpoon client:load loadInstantly={!ENABLE_PRELOADER} />
+					<DeferredSpoon client:only="react" loadInstantly={false} />
 
 					<script is:inline>
 						const handleSpoonLoaded = () => {
