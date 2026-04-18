@@ -1,5 +1,5 @@
 ---
-import { TestimonialGrid } from "./TestimonialGrid";
+import TestimonialGridStatic from "./TestimonialGridStatic.astro";
 
 interface Props {
   lang: "es" | "en";
@@ -12,6 +12,6 @@ const { lang } = Astro.props;
     class="min-h-[100vh] w-full flex flex-col items-center justify-center relative bg-transparent py-24"
 >
     <div class="w-full">
-        <TestimonialGrid client:only="react" lang={lang} />
+        <TestimonialGridStatic lang={lang} />
     </div>
 </section>

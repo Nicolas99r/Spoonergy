@@ -1,5 +1,5 @@
 ---
-import { FAQList } from "./FAQList";
+import FAQListStatic from "./FAQListStatic.astro";
 import { useTranslations } from "../i18n/utils";
 
 interface Props {
@@ -21,6 +21,6 @@ const t = useTranslations(lang);
             {t('faq.title')}
         </h2>
 
-        <FAQList client:only="react" lang={lang} />
+        <FAQListStatic lang={lang} />
     </div>
 </section>

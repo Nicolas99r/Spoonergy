@@ -1,5 +1,5 @@
 ---
-import { VerticalScanGrid } from "./VerticalScanGrid";
+import BenefitsGridStatic from "./BenefitsGridStatic.astro";
 
 interface Props {
   lang: "es" | "en";
@@ -9,9 +9,7 @@ const { lang } = Astro.props;
 ---
 
 <section
-    class="w-full flex flex-col justify-start px-10 md:px-32 relative"
+    class="w-full flex flex-col justify-start relative bg-transparent"
 >
-    <div class="w-full md:w-1/2">
-        <VerticalScanGrid client:only="react" lang={lang} />
-    </div>
+    <BenefitsGridStatic lang={lang} />
 </section>

@@ -1,0 +1,59 @@
+---
+interface Props {
+  text: string;
+  className?: string;
+}
+
+const { text, className } = Astro.props;
+const words = text.split(" ");
+---
+
+<div class:list={["reveal-text-container", className]}>
+  {words.map((word) => (
+    <span class="reveal-word inline-block mr-[0.3em]">
+      {word}
+    </span>
+  ))}
+</div>
+
+<style>
+  .reveal-word {
+    opacity: 0;
+    transform: translateY(15px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal-text-container.visible .reveal-word {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Staggering using CSS variables or nth-child */
+  .reveal-word:nth-child(1) { transition-delay: 0.05s; }
+  .reveal-word:nth-child(2) { transition-delay: 0.10s; }
+  .reveal-word:nth-child(3) { transition-delay: 0.15s; }
+  .reveal-word:nth-child(4) { transition-delay: 0.20s; }
+  .reveal-word:nth-child(5) { transition-delay: 0.25s; }
+  .reveal-word:nth-child(6) { transition-delay: 0.30s; }
+  .reveal-word:nth-child(7) { transition-delay: 0.35s; }
+  .reveal-word:nth-child(8) { transition-delay: 0.40s; }
+  .reveal-word:nth-child(9) { transition-delay: 0.45s; }
+  .reveal-word:nth-child(10) { transition-delay: 0.50s; }
+  .reveal-word:nth-child(11) { transition-delay: 0.55s; }
+  .reveal-word:nth-child(12) { transition-delay: 0.60s; }
+  .reveal-word:nth-child(13) { transition-delay: 0.65s; }
+  .reveal-word:nth-child(14) { transition-delay: 0.70s; }
+  .reveal-word:nth-child(15) { transition-delay: 0.75s; }
+</style>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('.reveal-text-container').forEach(el => observer.observe(el));
+</script>

@@ -1,0 +1,48 @@
+---
+import { ui } from '../i18n/ui';
+
+interface Props {
+    lang?: 'es' | 'en';
+}
+
+const { lang = 'es' } = Astro.props;
+const t = (key: keyof typeof ui['es']) => ui[lang][key] || ui['es'][key];
+
+const faqs = [
+    { q: t('faq.1.q'), a: t('faq.1.a') },
+    { q: t('faq.2.q'), a: t('faq.2.a') },
+    { q: t('faq.3.q'), a: t('faq.3.a') },
+    { q: t('faq.4.q'), a: t('faq.4.a') }
+];
+---
+
+<div class="space-y-8 pointer-events-auto relative w-full faq-container">
+    {faqs.map((faq) => (
+        <div class="border-b border-zinc-800/60 pb-6 relative group cursor-pointer faq-item">
+            <h3 class="text-base md:text-lg font-sans text-zinc-200 mb-3 transition-colors duration-300 group-hover:text-white">
+                {faq.q}
+            </h3>
+            <p class="text-zinc-400 font-light text-sm md:text-base transition-colors duration-300 group-hover:text-zinc-300">
+                {faq.a}
+            </p>
+
+            <!-- Decorative indicator (CSS only) -->
+            <div class="absolute -right-4 md:-right-12 top-0 h-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 translate-x-4 group-hover:translate-x-0 pointer-events-none">
+                <img 
+                    src="/Spoon.webp" 
+                    alt="" 
+                    class="h-12 w-auto object-contain -rotate-90 brightness-150 drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]" 
+                />
+            </div>
+        </div>
+    ))}
+</div>
+
+<style>
+    .faq-item {
+        transition: transform 0.3s ease-out;
+    }
+    .faq-item:hover {
+        transform: translateX(8px);
+    }
+</style>

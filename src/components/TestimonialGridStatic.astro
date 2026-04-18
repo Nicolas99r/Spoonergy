@@ -1,0 +1,94 @@
+---
+import { ui } from "../i18n/ui";
+
+interface Props {
+  lang?: "es" | "en";
+}
+
+const { lang = "es" } = Astro.props;
+const t = (key: keyof typeof ui["es"]) => ui[lang][key] || ui["es"][key];
+
+const testimonials = [
+  { quote: t("testimonials.1.text"), author: t("testimonials.1.author"), tag: t("testimonials.1.role"), delay: 0 },
+  { quote: t("testimonials.2.text"), author: t("testimonials.2.author"), tag: t("testimonials.2.role"), delay: 150 },
+  { quote: t("testimonials.3.text"), author: t("testimonials.3.author"), tag: t("testimonials.3.role"), delay: 300 },
+];
+---
+
+<div class="w-full relative z-[60] py-20 testimonial-section">
+  <!-- Header -->
+  <div class="w-full flex flex-col items-center justify-center mb-24 text-center reveal-on-scroll">
+    <h2 class="text-4xl md:text-6xl font-serif text-zinc-50 tracking-tight">
+      {t("testimonials.title")}
+    </h2>
+    <p class="text-zinc-300 mt-6 text-lg md:text-xl font-light tracking-wide">
+      {lang === "en" ? "Don't trust us. Trust the experience." : "No confíes en nosotros. Confía en la experiencia."}
+    </p>
+  </div>
+
+  <!-- Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto px-4 md:px-12">
+    {testimonials.map((item) => (
+      <div 
+        class="testimonial-card relative p-8 md:p-10 rounded-[2rem] border border-zinc-700/20 bg-zinc-900/20 backdrop-blur-md transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-zinc-900/60 hover:border-zinc-500/30 hover:scale-[1.02] group reveal-on-scroll h-full flex flex-col justify-between"
+        style={`--delay: ${item.delay}ms`}
+      >
+        <div class="relative z-10 w-full">
+            <svg class="w-8 h-8 text-zinc-600 mb-6 transition-colors duration-500 group-hover:text-zinc-400" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+            </svg>
+            <p class="text-lg md:text-xl lg:text-2xl font-serif text-zinc-200 leading-relaxed tracking-wide mb-12 transition-colors duration-500 group-hover:text-zinc-50">
+                {item.quote}
+            </p>
+        </div>
+
+        <div class="relative z-10 flex items-center justify-between w-full">
+            <div class="flex flex-col">
+                <span class="font-sans font-medium text-zinc-200 text-sm tracking-wide uppercase">
+                    {item.author}
+                </span>
+                <span class="font-sans font-light text-zinc-500 text-xs mt-1">
+                    {item.tag}
+                </span>
+            </div>
+            <div class="w-8 h-8 rounded-full border border-zinc-800 flex items-center justify-center transition-all duration-500 group-hover:bg-zinc-800 group-hover:border-zinc-500">
+                <svg class="w-4 h-4 text-zinc-600 transition-colors duration-500 group-hover:text-zinc-100" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: var(--delay, 0ms);
+  }
+
+  .reveal-on-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+</script>
