@@ -50,3 +50,19 @@ html.lenis body {
 .lenis.lenis-smooth iframe {
   pointer-events: none;
 }
+
+/* Performance Guardrails */
+@media (max-width: 768px) {
+  /* Disable expensive blend modes on mobile to save main-thread compositing work */
+  *[style*="mix-blend-overlay"] {
+    mix-blend-mode: normal !important;
+    opacity: 0.1 !important;
+  }
+}
+
+/* Force hardware acceleration for scrolling layers */
+main, .sticky {
+    will-change: transform;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+}

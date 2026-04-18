@@ -46,14 +46,4 @@ const words = text.split(" ");
   .reveal-word:nth-child(15) { transition-delay: 0.75s; }
 </style>
 
-<script>
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.2 });
 
-  document.querySelectorAll('.reveal-text-container').forEach(el => observer.observe(el));
-</script>

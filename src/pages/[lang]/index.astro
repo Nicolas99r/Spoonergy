@@ -53,8 +53,8 @@ const ENABLE_PRELOADER = true;
 						/>
 					</div>
 
-					<!-- La capa de React Three Fiber cargada al cargar la página para asegurar aparición automática -->
-					<DeferredSpoon client:only="react" loadInstantly={false} />
+					<!-- La capa de React Three Fiber cargada MANUALMENTE para TBT Zero -->
+					<div id="spoon-root"></div>
 
 					<script is:inline>
 						const handleSpoonLoaded = () => {

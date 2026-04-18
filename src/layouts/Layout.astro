@@ -6,8 +6,7 @@ import "@fontsource/inter/400.css";
 import "@fontsource/inter/500.css";
 import "../styles/global.css";
 import GlobalHeader from "../components/GlobalHeader.astro";
-import { CheckoutModal } from "../components/CheckoutModal";
-import { getLangFromUrl, useTranslations } from "../i18n/utils";
+import { useTranslations } from "../i18n/utils";
 
 interface Props {
     title?: string;
@@ -28,27 +27,17 @@ const title = propTitle ? `${propTitle} | Spoonergy` : "Spoonergy";
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="generator" content={Astro.generator} />
         
-        <!-- Primary Meta Tags -->
         <title>{title}</title>
         <meta name="title" content={title} />
         <meta name="description" content={t('hero.description')} />
         <meta name="theme-color" content="#000000" />
 
-        <!-- Open Graph / Facebook -->
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://spoonergy.com/" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={t('hero.description')} />
         <meta property="og:image" content="/og-preview.png" />
 
-        <!-- Twitter -->
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://spoonergy.com/" />
-        <meta property="twitter:title" content={title} />
-        <meta property="twitter:description" content={t('hero.description')} />
-        <meta property="twitter:image" content="/og-preview.png" />
-
-        <!-- Favicons & Mobile Icons -->
         <link rel="icon" type="image/png" href="/favicon-small.png" />
         <link rel="apple-touch-icon" href="/favicon-small.png" />
         <link rel="manifest" href="/manifest.json" />
@@ -58,9 +47,10 @@ const title = propTitle ? `${propTitle} | Spoonergy` : "Spoonergy";
     <body
         class="relative min-h-screen selection:bg-zinc-800 selection:text-zinc-50"
     >
-        <!-- Global Noise Overlay (Behind Spoon z-50, Above BG) -->
+        <!-- Global Noise Overlay -->
         <div
-            class="pointer-events-none fixed inset-0 z-[40] h-full w-full opacity-[0.04] mix-blend-overlay"
+            id="global-noise"
+            class="pointer-events-none fixed inset-0 z-[40] h-full w-full opacity-[0.04] mix-blend-overlay hidden md:block"
             style="background-image: url('/noise.webp');"
         >
         </div>
@@ -68,71 +58,92 @@ const title = propTitle ? `${propTitle} | Spoonergy` : "Spoonergy";
         <!-- Custom Spotlight Cursor -->
         <div
             id="spotlight"
-            class="pointer-events-none fixed inset-0 z-[90] transition-opacity duration-300 opacity-0 bg-[radial-gradient(circle_400px_at_var(--x,_50vw)_var(--y,_50vh),rgba(255,255,255,0.06),transparent_80%)]"
+            class="pointer-events-none fixed inset-0 z-[90] transition-opacity duration-300 opacity-0 bg-[radial-gradient(circle_400px_at_var(--x,_50vw)_var(--y,_50vh),rgba(255,255,255,0.06),transparent_80%)] hidden md:block"
         >
         </div>
 
-        <CheckoutModal client:only="react" lang={lang} />
+        <!-- MANUAL REACT ROOTS (No Astro Islands) -->
+        <div id="modal-root"></div>
+        
         <GlobalHeader lang={lang} />
 
         <slot />
 
-        <script>
-            import Lenis from "lenis";
+        <script define:vars={{ lang }}>
+            // --- ATOMIC INTERACTIVITY SCRIPT (THE ONLY JS RUNNING ON LOAD) ---
+            
+            // 1. Reveal on scroll logic (Consolidated)
+            const setupReveals = () => {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                }, { threshold: 0.1 });
 
-            // Force scroll to top on reload
-            if (history.scrollRestoration) {
-                history.scrollRestoration = 'manual';
-            }
-            window.scrollTo(0, 0);
+                document.querySelectorAll('.reveal-on-scroll, .reveal-text-container').forEach(el => observer.observe(el));
+            };
 
-            // Initialize Lenis deferred on spoonful ready
-            let lenis: Lenis | null = null;
-            const initLenis = () => {
-                if (lenis) return;
-                lenis = new Lenis({
-                    lerp: 0.05,
-                });
+            // 2. Manual Hydration Signal
+            let hasHydrated = false;
+            const startHydration = async () => {
+                if (hasHydrated) return;
+                hasHydrated = true;
+                
+                // Nuclear Deferral: Only import React stack after interaction or 10s
+                const { hydrateSpoon, hydrateModal } = await import('../scripts/manual-hydrate.tsx');
+                hydrateSpoon();
+                hydrateModal(lang);
+            };
 
-                function raf(time: number) {
-                    lenis?.raf(time);
+            // 3. Lenis & Scroll Prep
+            const initCore = async () => {
+                const { default: Lenis } = await import('lenis');
+                const lenis = new Lenis({ lerp: 0.05 });
+                
+                function raf(time) {
+                    lenis.raf(time);
                     requestAnimationFrame(raf);
                 }
                 requestAnimationFrame(raf);
+
+                // Re-bind anchors
+                document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+                    anchor.addEventListener("click", (e) => {
+                        e.preventDefault();
+                        const targetId = anchor.getAttribute("href");
+                        if (targetId && targetId !== "#") {
+                            const target = document.querySelector(targetId);
+                            if (target) lenis.scrollTo(target, { duration: 2 });
+                        }
+                    });
+                });
             };
 
-            window.addEventListener('spoonergy-ready', initLenis, { once: true });
-
-            // Smooth scroll for anchor queries
-            document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-                anchor.addEventListener("click", (e) => {
-                    e.preventDefault();
-                    const targetId = anchor.getAttribute("href");
-                    if (targetId && targetId !== "#") {
-                        const target = document.querySelector(
-                            targetId,
-                        ) as HTMLElement;
-                        if (target) {
-                            lenis.scrollTo(target, { offset: 0, duration: 2 });
-                        }
-                    } else if (targetId === "#") {
-                        lenis.scrollTo(0, { duration: 2 });
-                    }
-                });
-            });
-
-            // Spotlight cursor effect
+            // Spotlight effect (Only for mouse)
             const spotlight = document.getElementById("spotlight");
             if (spotlight) {
                 window.addEventListener("mousemove", (e) => {
                     spotlight.style.opacity = "1";
                     spotlight.style.setProperty("--x", `${e.clientX}px`);
                     spotlight.style.setProperty("--y", `${e.clientY}px`);
-                });
-                window.addEventListener("mouseleave", () => {
-                    spotlight.style.opacity = "0";
-                });
+                }, { passive: true });
             }
+
+            // --- THE TRIGGER SEQUENCE ---
+            window.addEventListener('spoonergy-ready', () => {
+                setupReveals();
+                initCore();
+                
+                // Fallback hydration after 10s of being ready
+                setTimeout(startHydration, 10000);
+            }, { once: true });
+
+            // User triggers hydration immediately
+            window.addEventListener('scroll', startHydration, { once: true, passive: true });
+            window.addEventListener('touchstart', startHydration, { once: true, passive: true });
+            window.addEventListener('mousedown', startHydration, { once: true, passive: true });
         </script>
     </body>
 </html>
