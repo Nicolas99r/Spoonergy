@@ -72,7 +72,7 @@ const title = propTitle ? `${propTitle} | Spoonergy` : "Spoonergy";
         >
         </div>
 
-        <CheckoutModal client:idle lang={lang} />
+        <CheckoutModal client:only="react" lang={lang} />
         <GlobalHeader lang={lang} />
 
         <slot />

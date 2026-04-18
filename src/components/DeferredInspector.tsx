@@ -14,7 +14,8 @@ export const DeferredInspector = () => {
         window.addEventListener('scroll', handleAction, { once: true, passive: true });
         window.addEventListener('spoonergy-ready', handleAction, { once: true });
         
-        const fallbackTimer = setTimeout(handleAction, 12000); // Un poco más tarde que la cuchara principal
+        // El inspector secundario puede tardar aún más en cargar si el usuario no llega a él
+        const fallbackTimer = setTimeout(handleAction, 18000); 
         
         return () => {
             window.removeEventListener('scroll', handleAction);
@@ -23,10 +24,19 @@ export const DeferredInspector = () => {
         };
     }, []);
 
-    if (!shouldLoad) return <div className="w-full h-[400px] bg-zinc-900/10 rounded-3xl" />;
+    // Placeholder con dimensiones EXACTAS para evitar CLS (Cumulative Layout Shift)
+    const placeholder = (
+        <div className="relative w-full h-[300px] md:h-[400px] overflow-hidden rounded-3xl bg-zinc-950/20 border border-white/5 shadow-2xl">
+              <div className="absolute inset-0 opacity-[0.1]" 
+                     style={{ backgroundImage: 'linear-gradient(to right, #333 1px, transparent 1px), linear-gradient(to bottom, #333 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
+              </div>
+        </div>
+    );
+
+    if (!shouldLoad) return placeholder;
 
     return (
-        <Suspense fallback={<div className="w-full h-[400px] bg-zinc-900/10 rounded-3xl" />}>
+        <Suspense fallback={placeholder}>
             <SpoonInspector />
         </Suspense>
     );

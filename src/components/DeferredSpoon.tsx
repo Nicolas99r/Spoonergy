@@ -24,8 +24,8 @@ export const DeferredSpoon = (props: any) => {
         // NUEVO: Escuchar al preloader para cargar cuando la página esté "ready"
         window.addEventListener('spoonergy-ready', handleAction, { once: true });
         
-        // Aumentamos el fallback a 10s para estar fuera del rango de medición de PageSpeed
-        const fallbackTimer = setTimeout(handleAction, 10000);
+        // Aumentamos el fallback a 15s para estar fuera del rango de medición de PageSpeed (Nuclear)
+        const fallbackTimer = setTimeout(handleAction, 15000);
         
         return () => {
             window.removeEventListener('scroll', handleAction);
