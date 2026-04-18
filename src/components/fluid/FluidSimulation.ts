@@ -167,7 +167,6 @@ export class FluidEngine {
     
     constructor(gl: THREE.WebGLRenderer) {
         this.renderer = gl;
-        this.renderer.autoClear = false;
         
         this.camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
         this.scene = new THREE.Scene();
@@ -176,8 +175,22 @@ export class FluidEngine {
 
         this.initFramebuffers();
         this.initMaterials();
+        this.clear();
         
         // No longer managing resize here, R3F does it
+    }
+
+    private clear() {
+        const mat = this.materials.clear;
+        mat.uniforms.value.value = 0.0;
+        
+        this.renderTarget(this.density.read, mat);
+        this.renderTarget(this.density.write, mat);
+        this.renderTarget(this.velocity.read, mat);
+        this.renderTarget(this.velocity.write, mat);
+        this.renderTarget(this.pressure.read, mat);
+        this.renderTarget(this.pressure.write, mat);
+        this.renderTarget(this.divergence, mat);
     }
 
     public getTexture() {
