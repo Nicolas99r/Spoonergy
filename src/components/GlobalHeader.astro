@@ -185,6 +185,15 @@ const t = useTranslations(lang);
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
+
+    // Trigger Checkout Modal
+    const buyBtn = document.getElementById("header-buy-button");
+    if (buyBtn) {
+      buyBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.dispatchEvent(new CustomEvent("open-checkout"));
+      });
+    }
   }
 
   // Support for standard load and View Transitions

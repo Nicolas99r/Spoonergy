@@ -69,9 +69,17 @@ const title = propTitle ? `${propTitle} | Spoonergy` : "Spoonergy";
 
         <slot />
 
-        <script define:vars={{ lang }}>
+        <!-- Store language for the script to read -->
+        <meta name="page-lang" content={lang} />
+
+        <script>
             // --- ATOMIC INTERACTIVITY SCRIPT (THE ONLY JS RUNNING ON LOAD) ---
             
+            const getLang = () => {
+                const meta = document.querySelector('meta[name="page-lang"]');
+                return meta ? meta.getAttribute('content') : 'es';
+            };
+
             // 1. Reveal on scroll logic (Consolidated)
             const setupReveals = () => {
                 const observer = new IntersectionObserver((entries) => {
@@ -87,38 +95,67 @@ const title = propTitle ? `${propTitle} | Spoonergy` : "Spoonergy";
 
             // 2. Manual Hydration Signal
             let hasHydrated = false;
+            let hydrationPromise = null;
+
             const startHydration = async () => {
-                if (hasHydrated) return;
-                hasHydrated = true;
+                if (hydrationPromise) return hydrationPromise;
                 
-                // Nuclear Deferral: Only import React stack after interaction or 10s
-                const { hydrateSpoon, hydrateModal } = await import('../scripts/manual-hydrate.tsx');
-                hydrateSpoon();
-                hydrateModal(lang);
+                hydrationPromise = (async () => {
+                    hasHydrated = true;
+                    try {
+                        const { hydrateSpoon, hydrateModal } = await import('../scripts/manual-hydrate.tsx');
+                        const lang = getLang();
+                        hydrateSpoon();
+                        hydrateModal(lang as 'es' | 'en');
+                        return true;
+                    } catch (error) {
+                        console.error("Hydration failed:", error);
+                        hasHydrated = false;
+                        hydrationPromise = null;
+                        return false;
+                    }
+                })();
+                
+                return hydrationPromise;
             };
+
+            // Global listener for checkout to ensure hydration happens
+            window.addEventListener('open-checkout', async (e) => {
+                if (!hasHydrated) {
+                    await startHydration();
+                    // Small delay to let React components mount and register their listeners
+                    setTimeout(() => {
+                        window.dispatchEvent(new CustomEvent('open-checkout'));
+                    }, 50);
+                }
+            }, { capture: true });
 
             // 3. Lenis & Scroll Prep
             const initCore = async () => {
-                const { default: Lenis } = await import('lenis');
-                const lenis = new Lenis({ lerp: 0.05 });
-                
-                function raf(time) {
-                    lenis.raf(time);
+                try {
+                    const { default: Lenis } = await import('lenis');
+                    const lenis = new Lenis({ lerp: 0.05 });
+                    
+                    function raf(time: number) {
+                        lenis.raf(time);
+                        requestAnimationFrame(raf);
+                    }
                     requestAnimationFrame(raf);
-                }
-                requestAnimationFrame(raf);
 
-                // Re-bind anchors
-                document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-                    anchor.addEventListener("click", (e) => {
-                        e.preventDefault();
-                        const targetId = anchor.getAttribute("href");
-                        if (targetId && targetId !== "#") {
-                            const target = document.querySelector(targetId);
-                            if (target) lenis.scrollTo(target, { duration: 2 });
-                        }
+                    // Re-bind anchors
+                    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+                        anchor.addEventListener("click", (e) => {
+                            e.preventDefault();
+                            const targetId = anchor.getAttribute("href");
+                            if (targetId && targetId !== "#") {
+                                const target = document.querySelector(targetId);
+                                if (target) lenis.scrollTo(target, { duration: 2 });
+                            }
+                        });
                     });
-                });
+                } catch (error) {
+                    console.error("Lenis init failed:", error);
+                }
             };
 
             // Spotlight effect (Only for mouse)
@@ -141,9 +178,13 @@ const title = propTitle ? `${propTitle} | Spoonergy` : "Spoonergy";
             }, { once: true });
 
             // User triggers hydration immediately
-            window.addEventListener('scroll', startHydration, { once: true, passive: true });
-            window.addEventListener('touchstart', startHydration, { once: true, passive: true });
-            window.addEventListener('mousedown', startHydration, { once: true, passive: true });
+            const triggerEvents = ['scroll', 'touchstart', 'mousedown', 'keydown', 'wheel'];
+            const handleInteraction = () => {
+                startHydration();
+                triggerEvents.forEach(evt => window.removeEventListener(evt, handleInteraction));
+            };
+            
+            triggerEvents.forEach(evt => window.addEventListener(evt, handleInteraction, { once: true, passive: true }));
         </script>
     </body>
 </html>
